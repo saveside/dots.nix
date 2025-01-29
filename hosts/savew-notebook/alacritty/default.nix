@@ -22,6 +22,7 @@
     settings = {
       #~ Font
       # font.size = config.stylix.fonts.sizes.terminal;
+      env.TERM = "xterm-256color";
       font.size = 10;
       font.normal = {
         # family = config.stylix.fonts.monospace.name;
