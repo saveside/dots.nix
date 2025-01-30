@@ -32,7 +32,7 @@ This is my personal dotfiles made with Nix
 - Clone this repository
 
     ```sh
-    git clone git@github.com:saveside/dots.nix
+    git clone https://github.com/saveside/dots.nix
     cd dots.nix
     ```
 
