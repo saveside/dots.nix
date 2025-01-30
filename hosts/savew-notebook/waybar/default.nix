@@ -59,7 +59,7 @@
           };
         };
         "tray" = {
-          spacing = 20;
+          spacing = 10;
         };
         "clock" = {
           tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
@@ -96,7 +96,7 @@
             "  "
             "  "
             "  "
-            "  "  
+            "  "
           ];
           on-click = "ags -t quicksettings";
         };
@@ -108,11 +108,9 @@
           format-source = " {volume}%";
           format-source-muted = " ";
           format-icons = [
-            "  "
-            "  "
-            "  "
-            "  "
-            "  " 
+            " "
+            " "
+            " "
           ];
           on-click = "pavucontrol";
         };
@@ -147,232 +145,232 @@
       };
     };
     style = ''
-    /*
-    *
-    * Cosmic Midnight Palette
-    *
-    */
-    
-    @define-color background #1b1b1b;
-    @define-color foreground #e0e0e0;
-    @define-color lighter #282828;
-    
-    /* Normal */
-    @define-color black #1b1b1b;
-    @define-color magenta #d16d92;
-    @define-color green #50a664;
-    @define-color yellow #dbb400;
-    @define-color blue #6f92ff;
-    @define-color red #ff6b81;
-    @define-color cyan #4fb3c5;
-    @define-color white #f0f0f0;
-    @define-color orange #eaa560;
-    @define-color purple #a87dbb;
-    
-    /* misc */
-    @define-color hover #9ab0c9;
+      /*
+      *
+      * Cosmic Midnight Palette
+      *
+      */
+
+      @define-color background #1b1b1b;
+      @define-color foreground #e0e0e0;
+      @define-color lighter #282828;
+
+      /* Normal */
+      @define-color black #1b1b1b;
+      @define-color magenta #d16d92;
+      @define-color green #50a664;
+      @define-color yellow #dbb400;
+      @define-color blue #6f92ff;
+      @define-color red #ff6b81;
+      @define-color cyan #4fb3c5;
+      @define-color white #f0f0f0;
+      @define-color orange #eaa560;
+      @define-color purple #a87dbb;
+
+      /* misc */
+      @define-color hover #9ab0c9;
 
 
-    * {
-        font-family: "Roboto", sans-serif;
-        font-size: 12px;
-        font-weight: bold;
-        min-height: 0;
-        transition: none;
-    }
+      * {
+          font-family: "Roboto", sans-serif;
+          font-size: 12px;
+          font-weight: bold;
+          min-height: 0;
+          transition: none;
+      }
 
-    window#waybar {
-        background: transparent;
-        color: @foreground;
-        padding: 0;
-        margin: 0;
-    }
+      window#waybar {
+          background: transparent;
+          color: @foreground;
+          padding: 0;
+          margin: 0;
+      }
 
-    window#waybar.empty #window {
-        background: transparent;
-        box-shadow: 0px 0px 0px;
-    }
+      window#waybar.empty #window {
+          background: transparent;
+          box-shadow: 0px 0px 0px;
+      }
 
-    #window {
-        margin-top: 4px;
-        padding: 6px 12px;
-        border-radius: 12px;
-        background-color: alpha(@background, 0.90);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
+      #window {
+          margin-top: 4px;
+          padding: 6px 12px;
+          border-radius: 12px;
+          background-color: alpha(@background, 0.90);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
 
-    #pulseaudio,
-    #clock,
-    #battery,
-    #network,
-    #tray,
-    #idle_inhibitor,
-    #custom-vpn {
-        margin-top: 4px;
-        margin-left: 4px;
-        margin-right: 4px;
-        padding: 2px 16px;
-        border-radius: 8px;
-        background-color: alpha(@background, 0.90);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-        border-width: 2px;
-        border-style: solid;
-    }
+      #pulseaudio,
+      #clock,
+      #battery,
+      #network,
+      #tray,
+      #idle_inhibitor,
+      #custom-vpn {
+          margin-top: 4px;
+          margin-left: 4px;
+          margin-right: 4px;
+          padding: 2px 16px;
+          border-radius: 8px;
+          background-color: alpha(@background, 0.90);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+          border-width: 2px;
+          border-style: solid;
+      }
 
-    #idle_inhibitor {
-        padding: 2px 15px 2px 10px;
-    }
+      #idle_inhibitor {
+          padding: 2px 15px 2px 10px;
+      }
 
-    #pulseaudio {
-        color: @blue;
-        border-color: alpha(@blue, 1);
-    }
+      #pulseaudio {
+          color: @blue;
+          border-color: alpha(@blue, 1);
+      }
 
-    #clock {
-        color: @cyan;
-        border-color: alpha(@cyan, 1);
-    }
+      #clock {
+          color: @cyan;
+          border-color: alpha(@cyan, 1);
+      }
 
-    #clock.date {
-        color: @purple;
-        border-color: alpha(@purple, 1);
-    }
+      #clock.date {
+          color: @purple;
+          border-color: alpha(@purple, 1);
+      }
 
-    #network {
-        color: @yellow;
-        border-color: alpha(@yellow, 1);
-    }
+      #network {
+          color: @yellow;
+          border-color: alpha(@yellow, 1);
+      }
 
-    #tray {
-        border-color: alpha(@foreground, 1);
-    }
+      #tray {
+          border-color: alpha(@foreground, 1);
+      }
 
-    #idle_inhibitor {
-        color: @green;
-        border-color: alpha(@green, 1);
-    }
+      #idle_inhibitor {
+          color: @green;
+          border-color: alpha(@green, 1);
+      }
 
-    #idle_inhibitor.activated {
-        color: @red;
-        border-color: alpha(@red, 1);
-        animation: glow 2s infinite;
-    }
+      #idle_inhibitor.activated {
+          color: @red;
+          border-color: alpha(@red, 1);
+          animation: glow 2s infinite;
+      }
 
-    #battery {
-        border-color: alpha(@foreground, 1);
-    }
+      #battery {
+          border-color: alpha(@foreground, 1);
+      }
 
-    #battery.charging,
-    #battery.plugged {
-        color: @green;
-        border-color: alpha(@green, 1);
-    }
+      #battery.charging,
+      #battery.plugged {
+          color: @green;
+          border-color: alpha(@green, 1);
+      }
 
-    #battery.warning {
-        color: @yellow;
-        border-color: alpha(@yellow, 1);
-    }
+      #battery.warning {
+          color: @yellow;
+          border-color: alpha(@yellow, 1);
+      }
 
-    #battery.critical {
-        color: @red;
-        border-color: alpha(@red, 1);
-        animation: blink 1s infinite;
-    }
+      #battery.critical {
+          color: @red;
+          border-color: alpha(@red, 1);
+          animation: blink 1s infinite;
+      }
 
-    #custom-vpn {
-        color: @magenta;
-        border-color: alpha(@magenta, 1);
-    }
+      #custom-vpn {
+          color: @magenta;
+          border-color: alpha(@magenta, 1);
+      }
 
-    #workspaces button {
-        padding: 0 12px;
-        margin-top: 4px;
-        border-radius: 0;
-        background-color: alpha(@background, 0.90);
-        transition: background-color 150ms ease, color 150ms ease;
-    }
+      #workspaces button {
+          padding: 0 12px;
+          margin-top: 4px;
+          border-radius: 0;
+          background-color: alpha(@background, 0.90);
+          transition: background-color 150ms ease, color 150ms ease;
+      }
 
-    #workspaces button:hover {
-        background-color: alpha(@foreground, 0.1);
-        box-shadow: inset 0 -2px @foreground;
-    }
+      #workspaces button:hover {
+          background-color: alpha(@foreground, 0.1);
+          box-shadow: inset 0 -2px @foreground;
+      }
 
-    #workspaces button:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-        margin-left: 4px;
-    }
+      #workspaces button:first-child {
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+          margin-left: 4px;
+      }
 
-    #workspaces button:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-    }
+      #workspaces button:last-child {
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+      }
 
-    #workspaces button.focused {
-        background-color: @foreground;
-        color: @background;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
+      #workspaces button.focused {
+          background-color: @foreground;
+          color: @background;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
 
-    #workspaces button.urgent {
-        background-color: @red;
-        animation: pulse 1s infinite;
-    }
+      #workspaces button.urgent {
+          background-color: @red;
+          animation: pulse 1s infinite;
+      }
 
-    /* Animations */
-    @keyframes pulse {
+      /* Animations */
+      @keyframes pulse {
 
-        0% {
-            opacity: 1;
-        }
+          0% {
+              opacity: 1;
+          }
 
-        100% {
-            opacity: 1;
-        }
+          100% {
+              opacity: 1;
+          }
 
-        50% {
-            opacity: 0.7;
-        }
-    }
+          50% {
+              opacity: 0.7;
+          }
+      }
 
-    @keyframes glow {
+      @keyframes glow {
 
-        0% {
-            box-shadow: 0 0 5px @green;
-        }
+          0% {
+              box-shadow: 0 0 5px @green;
+          }
 
-        100% {
-            box-shadow: 0 0 5px @red;
-        }
+          100% {
+              box-shadow: 0 0 5px @red;
+          }
 
-        50% {
-            box-shadow: 0 0 15px @red;
-        }
-    }
+          50% {
+              box-shadow: 0 0 15px @red;
+          }
+      }
 
-    @keyframes blink {
+      @keyframes blink {
 
-        0% {
-            opacity: 1;
-        }
+          0% {
+              opacity: 1;
+          }
 
-        100% {
-            opacity: 1;
-        }
+          100% {
+              opacity: 1;
+          }
 
-        50% {
-            opacity: 0.5;
-        }
-    }
+          50% {
+              opacity: 0.5;
+          }
+      }
 
-    .modules-left>widget:first-child>#workspaces {
-        margin-left: 0;
-    }
+      .modules-left>widget:first-child>#workspaces {
+          margin-left: 0;
+      }
 
-    .modules-right>widget:last-child>#workspaces {
-        margin-right: 0;
-    }
-  '';
+      .modules-right>widget:last-child>#workspaces {
+          margin-right: 0;
+      }
+    '';
 
-      };
-    }
+  };
+}
