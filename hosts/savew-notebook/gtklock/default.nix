@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.pkgconfig.gtklock = {
@@ -131,5 +136,5 @@
     #unlock-button:hover {
       box-shadow: 1 4px 15px alpha(@accent, 0.4);
     }
-'';
+  '';
 }
