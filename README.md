@@ -16,7 +16,7 @@ This is my personal dotfiles made with Nix
     ```sh
     NIX_VERSION="24.11"
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-    sudo -i nix-channel --add https://nixos.org/channels/nixpkgs-${NIX_VERSION} nixpkgs
+    sudo -i nix-channel --add https://nixos.org/channels/nixos-${NIX_VERSION} nixpkgs
     nix-channel --add https://nixos.org/channels/nixpkgs-${NIX_VERSION} nixpkgs
     nix-channel --update
     ```
