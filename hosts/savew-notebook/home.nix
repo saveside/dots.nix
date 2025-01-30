@@ -44,6 +44,7 @@
     evince
     fd
     feh
+    flameshot
     fzf
     go
     grc
