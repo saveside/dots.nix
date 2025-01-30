@@ -73,6 +73,7 @@ in
       "${modifier}+n" = "exec polybar-msg cmd toggle";
       "${modifier}+k" = "exec ags -t datemenu";
       "${modifier}+m" = "exec ags -t quicksettings";
+      "Print" = "exec flameshot gui -r | wl-copy";
 
     };
   };
