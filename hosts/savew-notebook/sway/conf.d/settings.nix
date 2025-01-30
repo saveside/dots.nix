@@ -48,7 +48,7 @@ in
 
       #~~~ window rules
       for_window [title="^daemonmodealacritty$"] move container to scratchpad
-      for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen enable, move absolute position 0 0
+      for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
       for_window [shell="xwayland"] title_format "[X] %title", border pixel 8
 
       #~~~ workspaces

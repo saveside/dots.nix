@@ -67,7 +67,7 @@ in
       "${modifier}+q" = "exec zen-browser";
       "${modifier}+w" = "exec pcmanfm-qt";
       "${modifier}+r" = "exec rofi -show drun";
-      "${modifier}+v" = "exec vscode";
+      "${modifier}+v" = "exec code";
       "${modifier}+o" = "exec xset dmps force off";
       "${modifier}+b" = "exec sh ~/.config/emoji/emoji.sh &";
       "${modifier}+n" = "exec polybar-msg cmd toggle";
