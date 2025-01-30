@@ -15,25 +15,25 @@
     package = pkgs.zsh;
     autosuggestion.enable = true;
     shellAliases = {
-       c = "clear";
-       cat = "bat";
-       download = "yt-dlp --format 'bestvideo[height<=1080]+bestaudio'";
-       fixmouse = "su -c 'echo 'on' > '/sys/bus/usb/devices/1-2/power/control''";
-       gamerun = "mesa_glthread=true gamemoderun";
-       gia = "git add .";
-       gica = "git commit -a";
-       ironweil = "mesa_glthread=true gamemoderun ironwail -basedir ~/.vkquake";
-       ls = "eza";
-       mp3 = "yt-dlp -x --audio-format mp3";
-       pass = "md5sum";
-       rsync = "rsync -avz --progress --partial --human-readable";
-       tldr = "cht.sh";
-       upload = "sh /home/savew/Scripts/paste.sh";
-       v = "neovide --multigrid";
-       vim = "nvim";
-       wget = "wget --hsts-file=\"$XDG_DATA_HOME/wget-hsts\"";
-       xdpreload = "sudo xdp-loader unload -a wlan0; sudo xdp-loader load -m skb -s prog wlan0 obj/icmp_block.o";
-       yt = "yt-dlp --format 'bestvideo[height<=1080]+bestaudio'";
+      c = "clear";
+      cat = "bat";
+      download = "yt-dlp --format 'bestvideo[height<=1080]+bestaudio'";
+      fixmouse = "su -c 'echo 'on' > '/sys/bus/usb/devices/1-2/power/control''";
+      gamerun = "mesa_glthread=true gamemoderun";
+      gia = "git add .";
+      gica = "git commit -a";
+      ironweil = "mesa_glthread=true gamemoderun ironwail -basedir ~/.vkquake";
+      ls = "eza";
+      mp3 = "yt-dlp -x --audio-format mp3";
+      pass = "md5sum";
+      rsync = "rsync -avz --progress --partial --human-readable";
+      tldr = "cht.sh";
+      upload = "sh /home/savew/Scripts/paste.sh";
+      v = "neovide --multigrid";
+      vim = "nvim";
+      wget = "wget --hsts-file=\"$XDG_DATA_HOME/wget-hsts\"";
+      xdpreload = "sudo xdp-loader unload -a wlan0; sudo xdp-loader load -m skb -s prog wlan0 obj/icmp_block.o";
+      yt = "yt-dlp --format 'bestvideo[height<=1080]+bestaudio'";
     };
     plugins = [
       {
