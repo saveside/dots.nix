@@ -49,6 +49,7 @@
     ags
     alacritty-theme
     ansible
+    autotiling-rs
     bat
     bat-extras.batman
     bibata-cursors
@@ -123,10 +124,6 @@
       enable = true;
       theme = "monokai_charcoal";
     };
-    # swappy.enable = true;
-    # swaylock.enable = true;
-    # swaynag.enable = true;
-    # tmux.enable = true;
     gtklock.enable = true;
     mangohud.enable = true;
     mpv.enable = true;
@@ -182,7 +179,6 @@
     ./wtf # WTF Util Configuration
     ./zathura # Zathura PDF Viewer Configuration
     ./zsh # ZSH Shell Configuration
-    # ./fontconfig # fontconfig Configuration
     # ./swaync # Sway Notification Center Configuration
   ];
 
