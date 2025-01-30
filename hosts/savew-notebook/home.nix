@@ -27,6 +27,19 @@
   home.packages = with pkgs; [
     (config.lib.nixGL.wrap imagemagick)
     (config.lib.nixGL.wrap nwg-displays)
+    (flameshot.overrideAttrs (oldAttrs: {
+      src = pkgs.fetchFromGitHub {
+        owner = "flameshot-org";
+        repo = "flameshot";
+        rev = "10d12e0";
+        sha256 = "sha256-3ujqwiQrv/H1HzkpD/Q+hoqyrUdO65gA0kKqtRV0vmw=";
+      };
+      cmakeFlags = [
+        "-DUSE_WAYLAND_CLIPBOARD=1"
+        "-DUSE_WAYLAND_GRIM=1"
+      ];
+      buildInputs = oldAttrs.buildInputs ++ [ pkgs.libsForQt5.kguiaddons ];
+    }))
     (nerdfonts.override {
       fonts = [
         "Iosevka"
@@ -44,7 +57,6 @@
     evince
     fd
     feh
-    flameshot
     fzf
     go
     grc
