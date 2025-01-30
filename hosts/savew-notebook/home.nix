@@ -123,18 +123,19 @@
       enable = true;
       theme = "monokai_charcoal";
     };
-    zsh.enable = true;
-    gtklock.enable = true;
-    mpv.enable = true;
     # swappy.enable = true;
-    sway.enable = true;
     # swaylock.enable = true;
     # swaynag.enable = true;
     # tmux.enable = true;
-    wtf.enable = true;
-    waybar.enable = true;
+    gtklock.enable = true;
+    mangohud.enable = true;
+    mpv.enable = true;
     rofi.enable = true;
+    sway.enable = true;
+    waybar.enable = true;
+    wtf.enable = true;
     zathura.enable = true;
+    zsh.enable = true;
   };
 
   # #~ colors ~#
@@ -172,17 +173,17 @@
   imports = [
     ./ags # AGS Notification Daemon Configuration
     ./alacritty # Alacritty Terminal Configuration
-    # ./fontconfig # fontconfig Configuration
     ./gtklock # gtklock Configuration
-    # ./mangohud # mangohud Configuration
+    ./mangohud # mangohud Configuration
     ./mpv # MPV Media Player Configuration
-    ./wtf # WTF Util Configuration
     ./rofi # Rofi Configuration
     ./sway # Sway Window Manager Configuration
-    # ./swaync # Sway Notification Center Configuration
     ./waybar # Waybar Configuration
+    ./wtf # WTF Util Configuration
     ./zathura # Zathura PDF Viewer Configuration
     ./zsh # ZSH Shell Configuration
+    # ./fontconfig # fontconfig Configuration
+    # ./swaync # Sway Notification Center Configuration
   ];
 
   ########################################
