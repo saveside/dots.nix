@@ -125,7 +125,7 @@
     };
     zsh.enable = true;
     gtklock.enable = true;
-    # mpv.enable = true;
+    mpv.enable = true;
     # swappy.enable = true;
     sway.enable = true;
     # swaylock.enable = true;
@@ -176,7 +176,8 @@
     # ./fontconfig # fontconfig Configuration
     ./gtklock # gtklock Configuration
     # ./mangohud # mangohud Configuration
-    ./wtf # MPV Media Player Configuration
+    ./mpv # MPV Media Player Configuration
+    ./wtf # WTF Util Configuration
     ./rofi # Rofi Configuration
     ./sway # Sway Window Manager Configuration
     # ./swaync # Sway Notification Center Configuration
