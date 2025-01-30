@@ -172,7 +172,6 @@
   imports = [
     ./ags # AGS Notification Daemon Configuration
     ./alacritty # Alacritty Terminal Configuration
-    # ./fastfetch # Fastfetch Configuration
     # ./fontconfig # fontconfig Configuration
     ./gtklock # gtklock Configuration
     # ./mangohud # mangohud Configuration
@@ -181,7 +180,6 @@
     ./rofi # Rofi Configuration
     ./sway # Sway Window Manager Configuration
     # ./swaync # Sway Notification Center Configuration
-    # ./tmux # TMUX Terminal Multiplexer Configuration
     ./waybar # Waybar Configuration
     ./zathura # Zathura PDF Viewer Configuration
     ./zsh # ZSH Shell Configuration
