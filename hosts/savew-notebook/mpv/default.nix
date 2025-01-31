@@ -11,7 +11,7 @@
   };
   config.programs.mpv = {
     enable = config.pkgconfig.mpv.enable;
-    package = config.lib.nixGL.wrap pkgs.mpv;
+    package = config.wrappedPkgs.mpv;
   };
   config.xdg.configFile."mpv" = {
     recursive = true;

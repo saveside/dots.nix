@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 
@@ -25,18 +24,11 @@
           even: yellow
           odd: white
       grid:
-        # How _wide_ the columns are, in terminal characters. In this case we have
-        # four columns, each of which are 35 characters wide.
         columns: [40, 40, 35, 35, 35, 50]
-        # How _high_ the rows are, in terminal lines. In this case we have four rows
-        # that support ten line of text and one of four.
         rows: [10, 7, 10, 10, 0]
       refreshInterval: 1
       openFileUtil: "open"
       mods:
-        # You can have multiple widgets of the same type.
-        # The "key" is the name of the widget and the type is the actual
-        # widget you want to implement.
         europe_time:
           title: "Europe"
           type: clocks

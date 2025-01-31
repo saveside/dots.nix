@@ -25,27 +25,21 @@
   #
   ########################################
   home.packages = with pkgs; [
-    (config.lib.nixGL.wrap imagemagick)
-    (config.lib.nixGL.wrap nwg-displays)
-    (flameshot.overrideAttrs (oldAttrs: {
-      src = pkgs.fetchFromGitHub {
-        owner = "flameshot-org";
-        repo = "flameshot";
-        rev = "10d12e0";
-        sha256 = "sha256-3ujqwiQrv/H1HzkpD/Q+hoqyrUdO65gA0kKqtRV0vmw=";
-      };
-      cmakeFlags = [
-        "-DUSE_WAYLAND_CLIPBOARD=1"
-        "-DUSE_WAYLAND_GRIM=1"
-      ];
-      buildInputs = oldAttrs.buildInputs ++ [ pkgs.libsForQt5.kguiaddons ];
-    }))
+    #~ nixGL wrapped packages ~#
+    config.wrappedPkgs.alacritty
+    config.wrappedPkgs.imagemagick
+    config.wrappedPkgs.nwg-displays
+    config.wrappedPkgs.flameshot
+
+    #~ nerdfonts override ~#
     (nerdfonts.override {
       fonts = [
         "Iosevka"
         "JetBrainsMono"
       ];
     })
+
+    #~ nixGL packages ~#
     ags
     alacritty-theme
     ansible
@@ -56,6 +50,7 @@
     btop
     bun
     evince
+    eza
     fd
     feh
     fzf
@@ -73,13 +68,16 @@
     monaspace
     most
     neofetch
+    neovide
     neovim
     nixd
     nixfmt-classic
     nmap
     nvtopPackages.amd
     nwg-look
+    pavucontrol
     pcmanfm-qt
+    rsync
     sass
     scrcpy
     slurp
@@ -118,6 +116,15 @@
     allowUnfree = true;
   }; # ~ for vscode
 
+  #~ services ~#
+  services = {
+    kdeconnect = {
+      enable = true;
+      package = config.wrappedPkgs.kdeconnect;
+      indicator = true;
+    };
+  };
+
   #~ packages ~#
   pkgconfig = {
     alacritty = {
@@ -129,7 +136,10 @@
     mpv.enable = true;
     rofi.enable = true;
     sway.enable = true;
-    waybar.enable = true;
+    waybar = {
+      enable = true;
+      weather_location = "Istanbul";
+    };
     wtf.enable = true;
     zathura.enable = true;
     zsh.enable = true;
@@ -170,16 +180,17 @@
   imports = [
     ./ags # AGS Notification Daemon Configuration
     ./alacritty # Alacritty Terminal Configuration
-    ./gtklock # gtklock Configuration
-    ./mangohud # mangohud Configuration
+    ./gtklock # GTKLock Configuration
+    ./mangohud # MangoHud Configuration
     ./mpv # MPV Media Player Configuration
+    ./packages # Custom Package Configuration
     ./rofi # Rofi Configuration
     ./sway # Sway Window Manager Configuration
+    # ./swaync # Sway Notification Center Configuration
     ./waybar # Waybar Configuration
-    ./wtf # WTF Util Configuration
+    ./wtf # WTFUtil Configuration
     ./zathura # Zathura PDF Viewer Configuration
     ./zsh # ZSH Shell Configuration
-    # ./swaync # Sway Notification Center Configuration
   ];
 
   ########################################

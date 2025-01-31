@@ -17,7 +17,7 @@
   };
   config.programs.alacritty = {
     enable = config.pkgconfig.alacritty.enable;
-    package = config.lib.nixGL.wrap pkgs.alacritty;
+    package = config.wrappedPkgs.alacritty;
 
     settings = {
       #~ Font
@@ -48,11 +48,6 @@
       };
 
       general.ipc_socket = true;
-
-      #~ Settings
-      # terminal.shell.program = lib.getExe pkgs.tmux;
-      # window.dynamic_title = true;
-
       general.import = [
         inputs.alacritty-theme.packages."${pkgs.system}"."${config.pkgconfig.alacritty.theme}"
       ];

@@ -62,6 +62,8 @@ in
       workspace 8 output $scr2
       workspace 9 output $scr2
 
+      #~~~ other
+      include $HOME/.config/sway/config.d/*
     '';
   };
 }

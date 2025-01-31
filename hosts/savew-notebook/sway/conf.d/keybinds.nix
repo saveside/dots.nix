@@ -59,21 +59,22 @@ in
       "${modifier}+Shift+c" = "kill";
 
       #~~~ other
-      "${modifier}+Return" = "exec alacritty msg create-window";
+      "${modifier}+Return" = "exec ${config.wrappedPkgs.alacritty}/bin/alacritty msg create-window";
       "${modifier}+d" =
         "exec vesktop --ozone-platform=wayland --disable-gpu-driver-bug-workarounds --enable-experimental-web-platform-features --new-canvas-2d-api --enable-features=VaapiVideoDecoder --enable-native-gpu-memory-buffers --canvas-oop-rasterization --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --enable-accelerated-video-decode";
-      "${modifier}+l" = "exec gtklock";
-      "${modifier}+Shift+q" = "exec ags -t powermenu";
+      "${modifier}+l" = "exec ${pkgs.gtklock}/bin/gtklock";
+      "${modifier}+Shift+q" = "exec ${pkgs.ags}/bin/ags -t powermenu";
       "${modifier}+q" = "exec zen-browser";
-      "${modifier}+w" = "exec pcmanfm-qt";
-      "${modifier}+r" = "exec rofi -show drun";
+      "${modifier}+w" = "exec ${pkgs.pcmanfm-qt}/bin/pcmanfm-qt";
+      "${modifier}+r" = "exec ${pkgs.rofi-wayland}/bin/rofi -show drun";
       "${modifier}+v" = "exec code";
-      "${modifier}+o" = "exec xset dmps force off";
+      "${modifier}+o" = "exec ${pkgs.sway}/bin/swaymsg output * dpms off";
       "${modifier}+b" = "exec sh ~/.config/emoji/emoji.sh &";
-      "${modifier}+n" = "exec polybar-msg cmd toggle";
-      "${modifier}+k" = "exec ags -t datemenu";
-      "${modifier}+m" = "exec ags -t quicksettings";
-      "Print" = "exec flameshot gui -r | wl-copy";
+      "${modifier}+n" = "exec ${pkgs.polybar}/bin/polybar-msg cmd toggle";
+      "${modifier}+k" = "exec ${pkgs.ags}/bin/ags -t datemenu";
+      "${modifier}+m" = "exec ${pkgs.ags}/bin/ags -t quicksettings";
+      "Print" =
+        "exec ${config.wrappedPkgs.flameshot}/bin/flameshot gui -r | ${pkgs.wl-clipboard}/bin/wl-copy";
 
     };
   };
