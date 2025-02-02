@@ -90,6 +90,7 @@
     vesktop
     vim
     vscode
+    waypaper
     wl-clipboard
     wlr-randr
     wlroots_0_17
