@@ -30,6 +30,7 @@
           "sway/window"
         ];
         modules-right = [
+          "custom/swaync"
           "idle_inhibitor"
           "custom/vpn"
           "network"
@@ -130,10 +131,30 @@
         "custom/vpn" = {
           tooltip = false;
           format = "VPN {}";
-          exec = "mullvad status | grep -q 'Connected' && echo ' ' || echo ' '";
+          exec = "mullvad status | grep -q 'Connected' && echo ' ' || echo ' '";
           interval = 5;
           on-click = "mullvad connect";
           on-click-right = "mullvad disconnect";
+        };
+        "custom/swaync" = {
+          tooltip = false;
+          format = "{icon} {0}";
+          format-icons = {
+            notification = " ";
+            none = " ";
+            dnd-notification = " ";
+            dnd-none = " ";
+            inhibited-notification = " "; 
+            inhibited-none = " ";
+            dnd-inhibited-notification = " ";
+            dnd-inhibited-none = " ";
+          };
+          return-type = "json";
+          exec-if = "${pkgs.swaynotificationcenter}/bin/swaync-client";
+          exec = "${pkgs.swaynotificationcenter}/bin/swaync-client -swb";
+          on-click = "${pkgs.swaynotificationcenter}/bin/swaync-client -t -sw";
+          on-click-right = "${pkgs.swaynotificationcenter}/bin/swaync-client -d -sw";
+          escape = true;
         };
         "network" = {
           format-wifi = "  {essid} ({signalStrength}%)";
@@ -211,6 +232,7 @@
       #battery,
       #network,
       #tray,
+      #custom-swaync,
       #idle_inhibitor,
       #custom-vpn {
           margin-top: 4px;
@@ -262,6 +284,12 @@
           border-color: alpha(@red, 1);
           animation: glow 2s infinite;
       }
+
+      #custom-swaync {
+          padding: 2px 15px 2px 10px;
+          color: @foreground;
+          border-color: alpha(@foreground, 1);
+      }   
 
       #battery {
           border-color: alpha(@foreground, 1);
