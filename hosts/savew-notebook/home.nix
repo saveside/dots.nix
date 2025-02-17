@@ -14,7 +14,7 @@
   ########################################
   home.username = "savew";
   home.homeDirectory = "/home/savew";
-  home.stateVersion = "24.11";
+  home.stateVersion = "25.05";
   programs.home-manager.enable = true;
   fonts.fontconfig.enable = true;
   nixGL.packages = inputs.nixgl.packages;
@@ -30,16 +30,17 @@
     config.wrappedPkgs.imagemagick
     config.wrappedPkgs.nwg-displays
     config.wrappedPkgs.flameshot
+    config.wrappedPkgs.pcmanfm-qt
 
     #~ nerdfonts override ~#
-    (nerdfonts.override {
-      fonts = [
-        "Iosevka"
-        "JetBrainsMono"
-      ];
-    })
+    # (nerd-fonts.override {
+    #   fonts = [
+    #     "Iosevka"
+    #     "JetBrainsMono"
+    #   ];
+    # })
 
-    #~ nixGL packages ~#
+    #~ packages ~#
     ags
     alacritty-theme
     ansible
@@ -53,30 +54,40 @@
     eza
     fd
     feh
+    # fluent-icon-theme
     fzf
+    gimp
     go
     grc
     grim
-    gtklock
     gtklock-powerbar-module
     htop
     imv
     iosevka
     jetbrains-mono
     jq
+    kdenlive
+    kdePackages.qt6ct
+    kdePackages.qtstyleplugin-kvantum
+    libsForQt5.qt5ct
+    libsForQt5.qtstyleplugin-kvantum
     lxsession
     monaspace
     most
     neofetch
     neovide
     neovim
+    networkmanagerapplet
+    nextcloud-client
     nixd
     nixfmt-classic
     nmap
     nvtopPackages.amd
     nwg-look
+    papirus-folders
+    papirus-icon-theme
     pavucontrol
-    pcmanfm-qt
+    pfetch
     rsync
     sass
     scrcpy
@@ -105,6 +116,12 @@
     zsh-autosuggestions
     zsh-f-sy-h
     zsh-fzf-history-search
+    qbittorrent
+    onlyoffice-bin
+    speedcrunch
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
+    font-awesome
   ];
 
   ########################################
@@ -171,6 +188,8 @@
   home.sessionVariables = {
     EDITOR = "vim";
     SYSTEMD_EDITOR = "vim";
+    LD_LIBRARY_PATH = "$HOME/.local/lib64:$HOME/.local/lib:$HOME/.nix-profile/lib64:$HOME/.nix-profile/lib:/usr/local/lib64:/usr/local/lib";
+    XDG_DATA_DIRS = "$HOME/.local/share/flatpak/exports/share:$HOME/.local/share:$HOME/.nix-profile/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:$XDG_DATA_DIRS";
   };
 
   ########################################
@@ -192,6 +211,7 @@
     ./wtf # WTFUtil Configuration
     ./zathura # Zathura PDF Viewer Configuration
     ./zsh # ZSH Shell Configuration
+    ./extras
   ];
 
   ########################################
