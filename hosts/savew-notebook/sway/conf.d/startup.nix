@@ -2,18 +2,28 @@
 
 {
   wayland.windowManager.sway = {
-    config.startup = [
-      #~~~ gtk configuration
-      {
-        command = "systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY SSH_AUTH_SOCK GNOME_KEYRING_CONTROL";
-      }
-      {
-        command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY SSH_AUTH_SOCK GNOME_KEYRING_CONTROL";
-      }
-      {
-        command = "dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XAUTHORITY SSH_AUTH_SOCK GNOME_KEYRING_CONTROL";
-      }
+    systemd = {
+      enable = true;
+      variables = [
+        "DISPLAY"
+        "GNOME_KEYRING_CONTROL"
+        "NIXOS_OZONE_WL"
+        "SSH_AUTH_SOCK"
+        "SWAYSOCK"
+        "WAYLAND_DISPLAY"
+        "XAUTHORITY"
+        "XCURSOR_SIZE"
+        "XCURSOR_THEME"
+        "XDG_CURRENT_DESKTOP"
+        "XDG_SESSION_TYPE"
+      ];
+    };
 
+    config.startup = [
+      #~~~ initial
+      {
+        command = "systemctl --user import-environment DISPLAY GNOME_KEYRING_CONTROL NIXOS_OZONE_WL SSH_AUTH_SOCK SWAYSOCK WAYLAND_DISPLAY XAUTHORITY XCURSOR_SIZE XCURSOR_THEME XDG_CURRENT_DESKTOP XDG_SESSION_TYPE";
+      }
       {
         command = "${pkgs.waypaper}/bin/waypaper --restore";
       }
@@ -35,7 +45,7 @@
         command = "${config.wrappedPkgs.alacritty}/bin/alacritty -t daemonmodealacritty";
       }
       {
-        command = "nextcloud";
+        command = "${pkgs.nextcloud-client}/bin/nextcloud";
       }
       {
         command = "${config.wrappedPkgs.sway}/bin/swayidle -w timeout 240 \"${pkgs.gtklock}/bin/gtklock\" timeout 300 '${config.wrappedPkgs.sway}/bin/swaymsg \"output * dpms off\"' resume '${config.wrappedPkgs.sway}/bin/swaymsg \"output * dpms on\"'";
@@ -56,7 +66,7 @@
         command = "1password";
       }
       {
-        command = "swaync";
+        command = "${pkgs.swaynotificationcenter}/bin/swaync";
       }
     ];
   };
