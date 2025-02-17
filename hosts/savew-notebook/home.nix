@@ -14,7 +14,7 @@
   ########################################
   home.username = "savew";
   home.homeDirectory = "/home/savew";
-  home.stateVersion = "25.05";
+  home.stateVersion = "24.11";
   programs.home-manager.enable = true;
   fonts.fontconfig.enable = true;
   nixGL.packages = inputs.nixgl.packages;
@@ -33,20 +33,22 @@
     config.wrappedPkgs.pcmanfm-qt
 
     #~ nerdfonts override ~#
-    # (nerd-fonts.override {
-    #   fonts = [
-    #     "Iosevka"
-    #     "JetBrainsMono"
-    #   ];
-    # })
+    (nerdfonts.override {
+      fonts = [
+        "Iosevka"
+        "JetBrainsMono"
+      ];
+    })
 
     #~ packages ~#
+    fluent-icon-theme
     ags
     alacritty-theme
     ansible
     autotiling-rs
     bat
     bat-extras.batman
+    bemenu
     bibata-cursors
     btop
     bun
@@ -54,7 +56,7 @@
     eza
     fd
     feh
-    # fluent-icon-theme
+    font-awesome
     fzf
     gimp
     go
@@ -84,14 +86,17 @@
     nmap
     nvtopPackages.amd
     nwg-look
+    onlyoffice-bin
     papirus-folders
     papirus-icon-theme
     pavucontrol
     pfetch
+    qbittorrent
     rsync
     sass
     scrcpy
     slurp
+    speedcrunch
     swappy
     swaybg
     swayidle
@@ -116,12 +121,6 @@
     zsh-autosuggestions
     zsh-f-sy-h
     zsh-fzf-history-search
-    qbittorrent
-    onlyoffice-bin
-    speedcrunch
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.iosevka
-    font-awesome
   ];
 
   ########################################
