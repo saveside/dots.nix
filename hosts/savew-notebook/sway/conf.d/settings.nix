@@ -45,6 +45,7 @@ in
       layer_effects "rofi" blur enable
       #layer_effects "waybar" blur enable
       layer_effects "zen-beta" blur enable
+      layer_effects "swaync" blur enable
 
       #~~~ window rules
       for_window [title="^daemonmodealacritty$"] move container to scratchpad

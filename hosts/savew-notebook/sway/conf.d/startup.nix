@@ -40,9 +40,9 @@
       {
         command = "${config.wrappedPkgs.sway}/bin/swayidle -w timeout 240 \"${pkgs.gtklock}/bin/gtklock\" timeout 300 '${config.wrappedPkgs.sway}/bin/swaymsg \"output * dpms off\"' resume '${config.wrappedPkgs.sway}/bin/swaymsg \"output * dpms on\"'";
       }
-      {
-        command = "${pkgs.ags}/bin/ags";
-      }
+      # {
+      #   command = "${pkgs.ags}/bin/ags";
+      # }
       {
         command = "nm-applet";
       }
@@ -54,6 +54,9 @@
       }
       {
         command = "1password";
+      }
+      {
+        command = "swaync";
       }
     ];
   };

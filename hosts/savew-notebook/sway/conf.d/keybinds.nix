@@ -62,7 +62,7 @@ in
       "${modifier}+Return" = "exec ${config.wrappedPkgs.alacritty}/bin/alacritty msg create-window";
       "${modifier}+d" =
         "exec vesktop --ozone-platform=wayland --disable-gpu-driver-bug-workarounds --enable-experimental-web-platform-features --new-canvas-2d-api --enable-features=VaapiVideoDecoder --enable-native-gpu-memory-buffers --canvas-oop-rasterization --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --enable-accelerated-video-decode";
-      "${modifier}+l" = "exec ${pkgs.gtklock}/bin/gtklock";
+      "${modifier}+l" = "exec /usr/bin/gtklock";
       "${modifier}+Shift+q" = "exec ${pkgs.ags}/bin/ags -t powermenu";
       "${modifier}+q" = "exec zen-browser";
       "${modifier}+w" = "exec ${pkgs.pcmanfm-qt}/bin/pcmanfm-qt";
