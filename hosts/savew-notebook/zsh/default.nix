@@ -30,6 +30,8 @@
       v = "${pkgs.neovide}/bin/neovide --multigrid";
       vim = "${pkgs.neovim}/bin/nvim";
       yt = "${pkgs.yt-dlp}/bin/yt-dlp --format 'bestvideo[height<=1080]+bestaudio'";
+      yt-album = "yt-dlp -o \"${config.home.homeDirectory}/Music/Albums/%(album)s - %(artist)s/%(playlist_autonumber)02d - %(track)s.%(ext)s\"";
+      yt-music = "yt-dlp -o \"${config.home.homeDirectory}/Music/Artists/%(artist)s/%(album)s/%(title)s.%(ext)s\"";
     };
     plugins = [
       {
