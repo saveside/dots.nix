@@ -211,6 +211,7 @@
     ./zathura # Zathura PDF Viewer Configuration
     ./zsh # ZSH Shell Configuration
     ./extras
+    ./yt-dlp
   ];
 
   ########################################
