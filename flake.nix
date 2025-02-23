@@ -1,5 +1,5 @@
 {
-  description = "Jomo Dotfils but As Nix";
+  description = "Jomo Dotfiles but As Nix";
 
   inputs = {
     nixpkgs = {
