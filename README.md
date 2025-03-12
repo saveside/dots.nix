@@ -49,7 +49,7 @@ This is my personal dotfiles made with Nix
 
 ![image](https://github.com/user-attachments/assets/f0db8ac3-9158-4e94-b108-922d96989d1a)
 
-## References - Big Thanks :)
+## References - Big Thanks ❤
 
 - mt190502 - <https://github.com/mt190502/dotfiles.nix> # Helped setup Nix Environment
 - xeome - <https://github.com/xeome/dots> # Original Dotfiles Resource
