@@ -72,8 +72,7 @@ This dotfiles is made for personal use. I use it with Nix Package Manager, so yo
 
 ## Screenshot
 
-
-
+![sway](https://raw.githubusercontent.com/saveside/dots.nix/refs/heads/main/assets/banner.png)
 ## Credits & Big Thanks
 
 - [xeome](https://github.com/xeome) - For the original inspiration and his dots! [dots](https://github.com/xeome/dots)
