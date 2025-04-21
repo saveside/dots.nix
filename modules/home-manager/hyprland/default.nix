@@ -25,15 +25,8 @@ in
         "$alt" = "ALT";
 
         env = [
-          "XDG_SESSION_TYPE=wayland"
-          "SDL_VIDEODRIVER=wayland"
-          "QT_QPA_PLATFORM=wayland;xcb"
-          "QT_AUTO_SCREEN_SCALE_FACTOR=1"
-          "QT_WAYLAND_DISABLE_WINDOWDECORATION=1"
-          "SSH_AUTH_SOCK=/run/user/$(id -u)/keyring/ssh"
-          "GNOME_KEYRING_CONTROL=/run/user/$(id -u)/keyring"
-          "HYPRCURSOR_THEME=${config.stylix.cursor.name}"
-          "HYPRCURSOR_SIZE=${builtins.toString config.stylix.cursor.size}"
+          "HYPRCURSOR_THEME,${config.stylix.cursor.name}"
+          "HYPRCURSOR_SIZE,${builtins.toString config.stylix.cursor.size}"
         ];
       };
     };

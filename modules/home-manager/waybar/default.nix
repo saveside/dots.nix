@@ -182,6 +182,8 @@ in
       };
 
       style = ''
+        @import "rosepine-mono.css";
+
         * {
             font-family: ${config.stylix.fonts.sansSerif.name}, ${config.stylix.fonts.monospace.name}, sans-serif;
             font-size: ${builtins.toString (config.stylix.fonts.sizes.applications + 3)}px;

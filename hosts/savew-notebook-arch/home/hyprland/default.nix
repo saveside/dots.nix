@@ -10,7 +10,7 @@
       sensitivity = -1;
     };
 
-    "$scr1" = "DP-2";
+    "$scr1" = "DP-1";
     "$scr2" = "eDP-2";
 
     monitor = [

@@ -127,7 +127,7 @@ in
 
 
         * {
-          font-family: "${config.stylix.fonts.sansSerif.name};
+          font-family: "${config.stylix.fonts.sansSerif.name}";
           transition: 200ms;
           box-shadow: none;
         }

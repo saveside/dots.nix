@@ -124,17 +124,34 @@
     ##############################
     ## APPS
     ##############################
+    CMAKE_CXX_COMPILER_LAUNCHER = "ccache";
     MOZ_ENABLE_WAYLAND = "1";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
+    PAGER = "most";
+
+    ##############################
+    ## QT
+    ##############################
+    QML_IMPORT_PATH = "$HOME/.local/lib64/qml:$HOME/.local/lib/qml:/usr/local/lib64/qml:/usr/local/lib/qml:$QML_IMPORT_PATH";
+    QML2_IMPORT_PATH = "$HOME/.local/lib64/qml:$HOME/.local/lib/qml:/usr/local/lib64/qml:/usr/local/lib/qml:$QML2_IMPORT_PATH";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_PLUGIN_PATH = "$HOME/.local/lib64/plugins:$HOME/.local/lib/plugins:/usr/local/lib64/plugins:/usr/local/lib/plugins:$HOME/.local/lib64/qt5/plugins:$HOME/.local/lib/qt5/plugins:/usr/local/lib64/qt5/plugins:/usr/local/lib/qt5/plugins:$QT_PLUGIN_PATH";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    # QT_QPA_PLATFORMTHEME = "qt6ct";
     QT_STYLE_OVERRIDE = "kvantum";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
 
     ##############################
     ## SYSTEM
     ##############################
-    LD_LIBRARY_PATH = "$HOME/.local/lib64:$HOME/.local/lib:$HOME/.nix-profile/lib64:$HOME/.nix-profile/lib:/usr/local/lib64:/usr/local/lib";
-    XDG_DATA_DIRS = "$HOME/.local/share:$HOME/.nix-profile/share:/usr/local/share:/usr/share:$XDG_DATA_DIRS";
+    LD_LIBRARY_PATH = "$HOME/.local/lib64:$HOME/.local/lib:$HOME/.nix-profile/lib64:$HOME/.nix-profile/lib:/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH";
+    PATH = "$HOME/.local/share/JetBrains/Toolbox/scripts:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.nix-profile/bin:$PATH";
+    XDG_DATA_DIRS = "$HOME/.local/share/flatpak/exports/share:$HOME/.local/share:$HOME/.nix-profile/share:/usr/local/share:/usr/share:$XDG_DATA_DIRS";
     EDITOR = "vim";
+    GTK_USE_PORTAL = "1";
+    SDL_VIDEODRIVER = "wayland";
     SYSTEMD_EDITOR = "vim";
+    XDG_CURRENT_DESKTOP = "sway";
+    XDG_SESSION_TYPE = "wayland";
   };
 
   ########################################
