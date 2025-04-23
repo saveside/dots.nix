@@ -11,13 +11,14 @@ in
   options.moduleopts.gtk = {
     enable = lib.mkOption {
       type = lib.types.bool;
-      default = true;
-      description = "GTK";
+      default = false;
+      description = "gtk";
     };
   };
   config = lib.mkIf cfg.enable {
     gtk = {
       enable = true;
+
       cursorTheme = {
         name = config.stylix.cursor.name;
         size = config.stylix.cursor.size;
