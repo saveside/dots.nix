@@ -26,6 +26,9 @@
       url = "github:alexghr/alacritty-theme.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak/?ref=latest";
+    };
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
