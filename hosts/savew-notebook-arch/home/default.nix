@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   inputs,
   config,
   ...
@@ -39,7 +40,13 @@
   ########################################
   #~ custom modules ~#
   moduleopts = {
-    ags.enable = false;
+    flatpak.enable = false;
+    fontconfig.enable = true;
+    gtk.enable = true;
+    kde.enable = true;
+    sway.enable = false;
+    qt.enable = true;
+    rnnoise-denoising.enable = true;
   };
 
   ########################################
