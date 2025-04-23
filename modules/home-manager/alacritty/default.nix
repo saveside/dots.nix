@@ -14,12 +14,12 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Alacritty";
+      description = "alacritty";
     };
     theme = lib.mkOption {
       type = lib.types.str;
-      default = "gruvbox";
-      description = "Alacritty theme";
+      default = "vibrant-ink";
+      description = "theme";
     };
   };
   config = lib.mkIf cfg.enable {
@@ -28,7 +28,6 @@ in
       package = config.wrapped.alacritty;
 
       settings = {
-        #~ Font
         font.size = config.stylix.fonts.sizes.terminal;
         font.normal = {
           family = config.stylix.fonts.monospace.name;
