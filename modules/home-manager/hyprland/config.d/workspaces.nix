@@ -12,18 +12,5 @@
     "$ws8" = "8";
     "$ws9" = "9";
     "$ws10" = "10";
-
-    workspace = [
-      "1, monitor:$scr1"
-      "2, monitor:$scr2"
-      "3, monitor:$scr2"
-      "4, monitor:$scr1"
-      "5, monitor:$scr2"
-      "6, monitor:$scr2"
-      "7, monitor:$scr2"
-      "8, monitor:$scr2"
-      "9, monitor:$scr2"
-      "10, monitor:$scr2"
-    ];
   };
 }

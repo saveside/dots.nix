@@ -13,7 +13,7 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Hyprland";
+      description = "hyprland";
     };
   };
   config = lib.mkIf cfg.enable {
@@ -42,6 +42,7 @@ in
                 alacritty = lib.getExe config.wrapped.alacritty;
                 bash = lib.getExe pkgs.bash;
                 cliphist = lib.getExe pkgs.cliphist;
+                dunst = lib.getExe pkgs.dunst;
                 grim = lib.getExe pkgs.grim;
                 hyprland = config.wrapped.hyprland;
                 imagemagick = config.wrapped.imagemagick;
@@ -50,6 +51,7 @@ in
                 mako = pkgs.mako;
                 ncmpcpp = lib.getExe pkgs.ncmpcpp;
                 notify-send = lib.getExe pkgs.libnotify;
+                pamixer = lib.getExe pkgs.pamixer;
                 slurp = lib.getExe pkgs.slurp;
                 swappy = lib.getExe pkgs.swappy;
                 sway = config.wrapped.sway;

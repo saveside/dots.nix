@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   modifier = config.wayland.windowManager.hyprland.settings."$mod";
@@ -9,39 +9,37 @@ in
     binds = {
       workspace_back_and_forth = true;
     };
-
     bind = [
-      "${modifier} SHIFT, r, exec, hyprctl reload"
-      "${modifier} SHIFT, q, exec, ags -t powermenu"
+
+      "${modifier} SHIFT, r, exec, ${config.wrapped.hyprland}/bin/hyprctl reload"
+
+      "${modifier} SHIFT, q, exec, ${lib.getExe config.wrapped.ags} -t powermenu"
 
       #~~~ user applications
-      "${modifier}, return, exec, alacritty msg create-window"
-      "${modifier}, q, exec, zen-browser"
-      "${modifier}, d, exec, vesktop --disable-gpu-driver-bug-workarounds --enable-experimental-web-platform-features --new-canvas-2d-api --enable-features=VaapiVideoDecoder --enable-native-gpu-memory-buffers --canvas-oop-rasterization --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --enable-accelerated-video-decode"
-      "${modifier}, e, exec, pcmanfm-qt"
-      ", Print, exec, env XDG_CURRENT_DESKTOP=sway XDG_SESSION_DESKTOP=sway QT_QPA_PLATFORM=wayland flameshot gui"
-      "${modifier}, r, exec, rofi -show drun"
-      "${modifier}, v, exec, code --ozone-platform=wayland"
+      "${modifier}, return, exec, ${lib.getExe config.wrapped.alacritty} msg create-window"
+      "${modifier}, e, exec, ${lib.getExe config.wrapped.pcmanfm-qt}"
+      ", Print, exec, ${config.wrapped.flameshot} gui"
+      "${modifier}, r, exec, ${lib.getExe pkgs.rofi} -show drun"
+      "${modifier}, v, exec, ${lib.getExe config.wrapped.vscode} --ozone-platform=wayland"
 
       #~~~ audio
-      "${alt}, up, exec, pamixer -i 5"
-      "${alt}, down, exec, pamixer -d 5"
+      "${alt}, up, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"
+      "${alt}, down, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"
       "${modifier}, a, exec, ${config.home.homeDirectory}/.config/hypr/scripts.d/status.sh"
-      ", XF86AudioRaiseVolume, exec, pamixer -i 5"
-      ", XF86AudioLowerVolume, exec, pamixer -d 5"
-      ", XF86AudioMute, exec, pamixer -t"
-      ", XF86AudioPlay, exec, playerctl play-pause"
-      ", XF86AudioNext, exec, playerctl next"
-      ", XF86AudioPrev, exec, playerctl previous"
+      ", XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"
+      ", XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"
+      ", XF86AudioMute, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle"
+      ", XF86AudioPlay, exec, ${lib.getExe pkgs.playerctl} play-pause"
+      ", XF86AudioNext, exec, ${lib.getExe pkgs.playerctl} next"
+      ", XF86AudioPrev, exec, ${lib.getExe pkgs.playerctl} previous"
+
+      #~~~ brightness (for Laptops)
+      ", XF86MonBrightnessUp, exec, ${lib.getExe pkgs.brightnessctl} set +5%"
+      ", XF86MonBrightnessDown, exec, ${lib.getExe pkgs.brightnessctl} set 5%-"
 
       #~~~ misc utilities
-      "${modifier}, o, exec, xset dpms force off"
-      "${modifier}, l, exec, gtklock"
-      "${modifier}, n, exec, polybar-msg cmd toggle"
-      ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
-      ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-      "${modifier}, m, exec, ags -t quicksettings"
-      "${modifier}, k, exec, swaync-client -t"
+      "${modifier}, m, exec, ${lib.getExe config.wrapped.ags} -t quicksettings"
+      "${modifier}, k, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t"
 
       #~~~ window management
       "${modifier}, escape, workspace, previous"
@@ -81,8 +79,8 @@ in
     ];
 
     bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
+      "${modifier}, mouse:272, movewindow"
+      "${modifier}, mouse:273, resizewindow"
     ];
   };
 }
