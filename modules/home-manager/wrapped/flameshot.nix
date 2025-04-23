@@ -27,7 +27,9 @@
   buildInputs = [ pkgs.makeWrapper ];
   postBuild = ''
     wrapProgram $out/bin/flameshot \
-      --set QT_STYLE_OVERRIDE kvantum \
-      --set XDG_CURRENT_DESKTOP KDE
+      --set XDG_CURRENT_DESKTOP sway \
+      --set XDG_SESSION_DESKTOP sway \
+      --set QT_QPA_PLATFORM wayland
   '';
+  meta.mainProgram = "flameshot";
 })

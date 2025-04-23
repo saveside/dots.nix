@@ -7,6 +7,8 @@
 
 let
   modifier = config.wayland.windowManager.sway.config.modifier;
+  menu = config.wayland.windowManager.sway.config.menu;
+  home = config.home.homeDirectory;
 in
 {
   wayland.windowManager.sway.config = {
@@ -48,36 +50,39 @@ in
       "${modifier}+0" = "workspace 10";
 
       #~~~ sound
-      "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
-      "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
-      "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+      "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
+      "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
+      "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
 
       #~~~ brightness (for Laptops)
-      "XF86MonBrightnessUp" = "exec brightnessctl set +5%";
-      "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
+      "XF86MonBrightnessUp" = "exec ${lib.getExe pkgs.brightnessctl} set +5%";
+      "XF86MonBrightnessDown" = "exec ${lib.getExe pkgs.brightnessctl} set 5%-";
 
       #~~~ playerctl
-      "XF86AudioPlay" = "exec playerctl play-pause";
-      "XF86AudioNext" = "exec playerctl next";
-      "XF86AudioPrev" = "exec playerctl previous";
+      "XF86AudioPlay" = "exec ${lib.getExe pkgs.playerctl} play-pause";
+      "XF86AudioPause" = "exec ${lib.getExe pkgs.playerctl} play-pause";
+      "XF86AudioNext" = "exec ${lib.getExe pkgs.playerctl} next";
+      "XF86AudioPrev" = "exec ${lib.getExe pkgs.playerctl} previous";
+      "$altMod+Left" = "exec ${lib.getExe pkgs.playerctl} previous";
+      "$altMod+Right" = "exec ${lib.getExe pkgs.playerctl} next";
 
       #~~~ sway
       "${modifier}+Shift+r" = "reload";
       "${modifier}+Shift+c" = "kill";
 
       #~~~ other
-      "${modifier}+Return" = "exec ${lib.getExe config.wrappedPkgs.alacritty} msg create-window";
+      "${modifier}+Return" = "exec ${lib.getExe config.wrapped.alacritty} msg create-window";
       "${modifier}+d" =
         "exec vesktop --ozone-platform=wayland --disable-gpu-driver-bug-workarounds --enable-experimental-web-platform-features --new-canvas-2d-api --enable-features=VaapiVideoDecoder --enable-native-gpu-memory-buffers --canvas-oop-rasterization --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy --enable-accelerated-video-decode";
-      "${modifier}+Shift+q" = "exec ${pkgs.ags}/bin/ags -t powermenu";
+      "${modifier}+Shift+q" = "exec ${lib.getExe config.wrapped.ags} -t powermenu";
       "${modifier}+q" = "exec zen-browser";
       "${modifier}+w" = "exec ${lib.getExe pkgs.pcmanfm-qt}";
       "${modifier}+r" = "exec ${lib.getExe pkgs.rofi-wayland} -show drun";
       "${modifier}+v" = "exec code";
       "${modifier}+o" = "exec ${config.wrapped.sway}/bin/swaymsg output * dpms off";
       "${modifier}+n" = "exec ${pkgs.polybar}/bin/polybar-msg cmd toggle";
-      "${modifier}+k" = "exec ${lib.getExe pkgs.ags} -t datemenu";
-      "${modifier}+m" = "exec ${lib.getExe pkgs.ags} -t quicksettings";
+      "${modifier}+k" = "exec ${config.wrapped.ags} -t datemenu";
+      "${modifier}+m" = "exec ${config.wrapped.ags} -t quicksettings";
       "Print" = "exec ${lib.getExe pkgs.flameshot} gui -r | ${pkgs.wl-clipboard}/bin/wl-copy";
 
     };

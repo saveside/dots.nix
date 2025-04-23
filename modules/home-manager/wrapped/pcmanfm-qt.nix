@@ -14,5 +14,6 @@
         --set QT_QPA_PLATFORMTHEME qt6ct \
         --set XDG_CURRENT_DESKTOP KDE
     '';
+    meta.mainProgram = "pcmanfm-qt";
   }
 ))

@@ -13,14 +13,15 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Swaync";
+      description = "swaync";
     };
   };
   config = lib.mkIf cfg.enable {
     services.swaync = {
       enable = true;
+
       settings = {
-        "$schema" = "${pkgs.swaynotificationcenter}/swaync/configSchema.json";
+        "$schema" = "${pkgs.swaynotificationcenter}/etc/xdg/swaync/configSchema.json";
         control-center-height = 2;
         control-center-layer = "overlay";
         control-center-margin-bottom = 20;
@@ -116,6 +117,7 @@ in
         ];
 
       };
+
       style = ''
         @define-color background ${config.colors.backgroundColor};
         @define-color foreground ${config.colors.textColor};
@@ -328,14 +330,14 @@ in
       "swaync/wf-recorder.sh" = {
         text = ''
           #!${lib.getExe pkgs.bash}
-          echo wf-recorder
+          ${pkgs.libnotify}/bin/notify-send wf-recorder
         '';
         executable = true;
       };
       "swaync/cliphist-menu.sh" = {
         text = ''
           #!${lib.getExe pkgs.bash}
-          echo cliphist-menu
+          ${pkgs.libnotify}/bin/notify-send cliphist-menu
         '';
         executable = true;
       };

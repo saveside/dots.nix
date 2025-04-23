@@ -12,8 +12,8 @@ in
   options.moduleopts.kde = {
     enable = lib.mkOption {
       type = lib.types.bool;
-      default = true;
-      description = "KDE Plasma";
+      default = false;
+      description = "kde";
     };
   };
   config = lib.mkIf cfg.enable {
@@ -29,8 +29,8 @@ in
     xdg.configFile."Kvantum/MonochromeBlur/MonochromeBlur.svg" = {
       recursive = true;
       source = builtins.fetchurl {
-        url = "https://gitlab.com/pwyde/monochrome-kde/-/raw/1c9983e8d1384ec2d9ff0fac59c5265fc74d0e6b/Kvantum/MonochromeBlur/MonochromeSolid.svg";
-        sha256 = "sha256:0x0c34c36vm21qf991zip9impjfi9bx57k5lwgv9gk31k97b9zv8";
+        url = "https://gitlab.com/pwyde/monochrome-kde/-/raw/1c9983e8d1384ec2d9ff0fac59c5265fc74d0e6b/Kvantum/MonochromeBlur/MonochromeBlur.svg";
+        sha256 = "sha256:10vlix3nhpbinhwcscdy8x6id74ffbwr39m1nmlnd0c8fby4a195";
       };
     };
     xdg.configFile."Kvantum/kvantum.kvconfig".text = ''

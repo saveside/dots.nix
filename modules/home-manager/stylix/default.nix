@@ -68,23 +68,26 @@
       light = "Papirus-Dark";
       dark = "Papirus-Dark";
     };
-    image = inputs.self + /assets/wallpaper;
+    image = inputs.self + "/assets/wallpaper";
     polarity = "dark";
     targets = {
       alacritty.enable = false;
       gnome.enable = false;
+      mako.enable = false;
+      mangohud.enable = false;
       gtk.enable = false;
       hyprland.enable = false;
       k9s.enable = false;
       kde.enable = false;
-      mangohud.enable = false;
       neovim.enable = false;
+      nixvim.enable = false;
       qt.enable = false;
       rofi.enable = false;
       sway.enable = false;
       swaylock.enable = false;
       swaync.enable = false;
       waybar.enable = false;
+      wofi.enable = false;
       zathura.enable = false;
     };
   };

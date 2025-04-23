@@ -1,4 +1,9 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   modifier = config.wayland.windowManager.sway.config.modifier;
@@ -8,7 +13,7 @@ in
     config = {
       bars = [
         {
-          command = "waybar";
+          command = "${lib.getExe config.wrapped.waybar}";
           position = "top";
           workspaceButtons = true;
         }
@@ -64,7 +69,7 @@ in
       workspace 9 output $scr2
 
       #~~~ other
-      include $HOME/.config/sway/config.d/*
+      include ${config.home.homeDirectory}/.config/sway/config.d/*
     '';
   };
 }

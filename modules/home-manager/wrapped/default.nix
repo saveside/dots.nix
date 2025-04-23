@@ -16,6 +16,10 @@ in
       default = pkgs.alacritty;
       type = package;
     };
+    ags = lib.mkOption {
+      default = pkgs.ags;
+      type = package;
+    };
     dolphin = lib.mkOption {
       default = pkgs.kdePackages.dolphin;
       type = package;
@@ -78,10 +82,6 @@ in
     };
     sway = lib.mkOption {
       default = pkgs.swayfx;
-      type = package;
-    };
-    swaylock = lib.mkOption {
-      default = pkgs.swaylock;
       type = package;
     };
     vscode = lib.mkOption {

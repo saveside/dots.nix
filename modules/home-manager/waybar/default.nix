@@ -182,8 +182,15 @@ in
       };
 
       style = ''
-        @import "rosepine-mono.css";
-
+        @define-color background #191724;
+        @define-color foreground #e0def4;
+        @define-color blue #908caa;
+        @define-color cyan #9ccfd8;
+        @define-color purple #c4a7e7;
+        @define-color yellow #f6c177;
+        @define-color green #9ccfd8;
+        @define-color red #eb6f92;
+        @define-color magenta #c4a7e7;
         * {
             font-family: ${config.stylix.fonts.sansSerif.name}, ${config.stylix.fonts.monospace.name}, sans-serif;
             font-size: ${builtins.toString (config.stylix.fonts.sizes.applications + 3)}px;

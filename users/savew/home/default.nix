@@ -23,10 +23,10 @@
   home.packages = with pkgs; [
     #~ custom ~#
     inputs.self.packages."${pkgs.system}".zmem
+    inputs.apple-fonts.packages.${pkgs.system}.sf-pro-nerd
 
     #~ fonts ~#
     fira-code
-    font-awesome_5
     hack-font
     jetbrains-mono
     montserrat
@@ -37,16 +37,22 @@
     ubuntu_font_family
 
     #~ standard packages ~#
+    _1password-cli
     adw-gtk3
     alacritty-theme
     ansible
     aria2
+    bat
+    bat-extras.batman
     bc
     binwalk
     btop
-    bun
+    cliphist
+    delta
+    direnv
     fastfetch
     gdb
+    gef
     gnome-icon-theme
     gnome-tweaks
     grc
@@ -66,6 +72,7 @@
     libsForQt5.qtstyleplugin-kvantum
     lsd
     minikube
+    minio-client
     netcat
     nixd
     nixfmt-rfc-style
@@ -73,7 +80,9 @@
     nvtopPackages.full
     nwg-look
     ocs-url
+    onefetch
     pavucontrol
+    pipes-rs
     playerctl
     postgresql_17
     r2modman
@@ -82,17 +91,22 @@
     scrcpy
     shellcheck
     slurp
+    strace
     swappy
     swaybg
     swayidle
+    tesseract
     tmux
     traceroute
     translate-shell
+    trash-cli
     tree
+    universal-android-debloater
     unrar
     unzip
     wl-clipboard
     wlr-randr
+    wlroots_0_17
     wlsunset
     wtype
     ydotool
@@ -108,7 +122,8 @@
   #~ custom modules ~#
   moduleopts = {
     alacritty.theme = "rose_pine";
-    sway.enable = false;
+    easyeffects.enable = false;
+    mako.enable = false;
     waybar.weather_location = "Istanbul";
   };
 
@@ -143,9 +158,9 @@
     ##############################
     ## SYSTEM
     ##############################
-    LD_LIBRARY_PATH = "$HOME/.local/lib64:$HOME/.local/lib:$HOME/.nix-profile/lib64:$HOME/.nix-profile/lib:/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH";
-    PATH = "$HOME/.local/share/JetBrains/Toolbox/scripts:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.nix-profile/bin:$PATH";
-    XDG_DATA_DIRS = "$HOME/.local/share/flatpak/exports/share:$HOME/.local/share:$HOME/.nix-profile/share:/usr/local/share:/usr/share:$XDG_DATA_DIRS";
+    #LD_LIBRARY_PATH = "$HOME/.local/lib64:$HOME/.local/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:$HOME/.nix-profile/lib64:$HOME/.nix-profile/lib:$LD_LIBRARY_PATH";
+    #PATH = "$HOME/.local/share/JetBrains/Toolbox/scripts:$HOME/.local/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:$HOME/.nix-profile/sbin:$HOME/.nix-profile/bin";
+    #XDG_DATA_DIRS = "$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$HOME/.local/share:/usr/local/share:/usr/share:$HOME/.nix-profile/share:$XDG_DATA_DIRS";
     EDITOR = "vim";
     GTK_USE_PORTAL = "1";
     SDL_VIDEODRIVER = "wayland";
@@ -159,7 +174,12 @@
   ## Other Configurations
   #
   ########################################
-  home.activation = { };
+  home.activation = {
+    postInstall = ''
+      $SHELL -c "fisher install ilancosman/tide" &>/dev/null
+      $SHELL -c "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='Two lines' --prompt_connection=Dotted --prompt_connection_andor_frame_color=Lightest --prompt_spacing=Sparse --icons='Many icons' --transient=Yes" &>/dev/null
+    '';
+  };
   imports =
     lib.map (p: ./. + "/${p}") (lib.remove "default.nix" (lib.attrNames (builtins.readDir ./.)))
     ++ [ inputs.self.homeManagerModules.saveside ];
