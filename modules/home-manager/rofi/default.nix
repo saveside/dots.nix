@@ -25,9 +25,7 @@ in
 
     xdg.configFile."rofi/custom.rasi".text = ''
       * {
-          font: "${config.stylix.fonts.sansSerif.name} ${
-            builtins.toString (config.stylix.fonts.sizes.applications + 1)
-          }";
+          font: "${config.stylix.fonts.sansSerif.name} 8";
 
           bg0: #000000a6;
           bg1: #7E7E7E80;

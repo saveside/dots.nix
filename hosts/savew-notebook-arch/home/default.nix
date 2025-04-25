@@ -40,7 +40,6 @@
   ########################################
   #~ custom modules ~#
   moduleopts = {
-    flatpak.enable = false;
     fontconfig.enable = true;
     gtk.enable = true;
     kde.enable = true;

@@ -122,8 +122,6 @@
   #~ custom modules ~#
   moduleopts = {
     alacritty.theme = "rose_pine";
-    easyeffects.enable = false;
-    mako.enable = false;
     waybar.weather_location = "Istanbul";
   };
 
@@ -165,7 +163,6 @@
     GTK_USE_PORTAL = "1";
     SDL_VIDEODRIVER = "wayland";
     SYSTEMD_EDITOR = "vim";
-    XDG_CURRENT_DESKTOP = "sway";
     XDG_SESSION_TYPE = "wayland";
   };
 
@@ -174,12 +171,7 @@
   ## Other Configurations
   #
   ########################################
-  home.activation = {
-    postInstall = ''
-      $SHELL -c "fisher install ilancosman/tide" &>/dev/null
-      $SHELL -c "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='Two lines' --prompt_connection=Dotted --prompt_connection_andor_frame_color=Lightest --prompt_spacing=Sparse --icons='Many icons' --transient=Yes" &>/dev/null
-    '';
-  };
+  home.activation = {};
   imports =
     lib.map (p: ./. + "/${p}") (lib.remove "default.nix" (lib.attrNames (builtins.readDir ./.)))
     ++ [ inputs.self.homeManagerModules.saveside ];

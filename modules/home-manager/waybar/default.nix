@@ -193,7 +193,7 @@ in
         @define-color magenta #c4a7e7;
         * {
             font-family: ${config.stylix.fonts.sansSerif.name}, ${config.stylix.fonts.monospace.name}, sans-serif;
-            font-size: ${builtins.toString (config.stylix.fonts.sizes.applications + 3)}px;
+            font-size: 14px;
             font-weight: bold;
             min-height: 0;
             transition: none;
