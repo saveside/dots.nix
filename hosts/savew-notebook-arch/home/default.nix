@@ -27,6 +27,7 @@
     config.wrapped.alacritty
     config.wrapped.flameshot
     config.wrapped.imagemagick
+    config.wrapped.mpv
     config.wrapped.nwg-displays
     config.wrapped.qt5ct
     config.wrapped.qt6ct

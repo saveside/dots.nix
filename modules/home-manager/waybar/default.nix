@@ -64,7 +64,7 @@ in
           "hyprland/window" = {
             format = "{title}";
             empty-format = "No active window";
-            on-click = "${lib.getExe pkgs.ags} -t datemenu";
+            on-click = "${lib.getExe pkgs.ags_1} -t datemenu";
             tooltip = false;
           };
           "idle_inhibitor" = {
@@ -114,7 +114,7 @@ in
               "  "
               "  "
             ];
-            on-click = "${lib.getExe pkgs.ags} -t quicksettings";
+            on-click = "${lib.getExe pkgs.ags_1} -t quicksettings";
           };
           "pulseaudio" = {
             format = "{icon} {volume}% {format_source}";

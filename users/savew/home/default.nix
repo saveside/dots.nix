@@ -35,9 +35,14 @@
     nerd-fonts.monaspace
     noto-fonts-color-emoji
     ubuntu_font_family
-
+    monaspace
+  
     #~ standard packages ~#
     _1password-cli
+    ags_1
+    bun
+    brightnessctl
+    dart-sass
     adw-gtk3
     alacritty-theme
     ansible
@@ -123,6 +128,7 @@
   moduleopts = {
     alacritty.theme = "rose_pine";
     waybar.weather_location = "Istanbul";
+
   };
 
   #~ xdg ~#

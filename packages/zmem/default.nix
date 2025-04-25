@@ -10,10 +10,10 @@ pkgs.rustPlatform.buildRustPackage rec {
     owner = "xeome";
     repo = pname;
     rev = version;
-    sha256 = "sha256-0BCt+Jz/571dIyju89b4H9n0byCnEEt3pdUzJ3EUVOM=";
+    sha256 = "sha256-1oTDxgfEUuVCJ1PsLzeINFO4uI41SNp28pAiM12hdeU=";
   };
   useFetchCargoVendor = true;
-  cargoHash = "sha256-cjDOGANGG9gfdW5OdEveGbhhYxxL96l1YGCVKMyVa1A=";
+  cargoHash = "sha256-21VU12HAzVN8wChu50NOmTiudHdfMRsfiCNSKA6bHsQ=";
   meta = {
     description = "Advanced linux memory monitoring";
     homepage = "https://github.com/xeome/zmem";
