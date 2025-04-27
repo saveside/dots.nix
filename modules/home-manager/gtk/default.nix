@@ -18,7 +18,7 @@ in
   config = lib.mkIf cfg.enable {
     gtk = {
       enable = true;
-
+      
       cursorTheme = {
         name = config.stylix.cursor.name;
         size = config.stylix.cursor.size;

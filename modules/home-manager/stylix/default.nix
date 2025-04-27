@@ -9,36 +9,10 @@
 {
   imports = [ inputs.stylix.homeManagerModules.stylix ];
 
-  options.colors = {
-    activeColor = lib.mkOption {
-      default = config.lib.stylix.colors.withHashtag.base0C;
-      type = lib.types.str;
-    };
-    backgroundColor = lib.mkOption {
-      default = config.lib.stylix.colors.withHashtag.base00;
-      type = lib.types.str;
-    };
-    inactiveColor = lib.mkOption {
-      default = config.lib.stylix.colors.withHashtag.base01;
-      type = lib.types.str;
-    };
-    inactiveColor2 = lib.mkOption {
-      default = config.lib.stylix.colors.withHashtag.base02;
-      type = lib.types.str;
-    };
-    urgentColor = lib.mkOption {
-      default = "#FF0000";
-      type = lib.types.str;
-    };
-    textColor = lib.mkOption {
-      default = config.lib.stylix.colors.withHashtag.base0F;
-      type = lib.types.str;
-    };
-  };
-
   config.stylix = {
     enable = true;
     # autoEnable = false;
+
     cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Classic";
@@ -72,10 +46,8 @@
     polarity = "dark";
     targets = {
       alacritty.enable = false;
-      gnome.enable = false;
       mako.enable = false;
       mangohud.enable = false;
-      gtk.enable = false;
       hyprland.enable = false;
       k9s.enable = false;
       kde.enable = false;

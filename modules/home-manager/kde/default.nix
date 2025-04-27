@@ -35,7 +35,7 @@ in
     };
     xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
       [General]
-      theme=MonochromeBlur
+      theme=Fluent-roundDark
     '';
     xdg.configFile."kdeglobals".text = ''
       [General]

@@ -42,6 +42,7 @@
     ags_1
     bun
     brightnessctl
+    htop
     dart-sass
     adw-gtk3
     alacritty-theme
@@ -107,6 +108,7 @@
     trash-cli
     tree
     universal-android-debloater
+    networkmanager-openvpn
     unrar
     unzip
     wl-clipboard

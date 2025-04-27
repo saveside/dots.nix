@@ -119,13 +119,13 @@ in
       };
 
       style = ''
-        @define-color background ${config.colors.backgroundColor};
-        @define-color foreground ${config.colors.textColor};
-        @define-color active ${config.colors.activeColor};
-        @define-color inactive ${config.colors.inactiveColor};     
-        @define-color inactive2 ${config.colors.inactiveColor2};
+        @define-color background ${config.lib.stylix.colors.withHashtag.base00};
+        @define-color foreground ${config.lib.stylix.colors.withHashtag.base05};
+        @define-color active ${config.lib.stylix.colors.withHashtag.base0D};
+        @define-color inactive ${config.lib.stylix.colors.withHashtag.base03};     
+        @define-color inactive2 ${config.lib.stylix.colors.withHashtag.base03};
         @define-color primary ${config.lib.stylix.colors.withHashtag.base05};
-        @define-color destructive ${config.colors.urgentColor};
+        @define-color destructive ${config.lib.stylix.colors.withHashtag.base0C};
 
 
         * {
@@ -156,7 +156,7 @@ in
         .notification.normal .notification-content label,
         .notification.low .notification-content image,
         .notification.normal .notification-content image {
-          color: @inactive;
+          color: @foreground;
         }
 
         .notification.low .notification-content .body,
@@ -197,6 +197,10 @@ in
           font-weight: 400;
           margin-top: 0.4rem;
         }
+        
+        .control-center-dnd:checked {
+          background: @active;
+        }
 
         /* Close Button */
         .close-button {
@@ -218,7 +222,7 @@ in
         }
 
         .close-button:active {
-          background-color: rgba(255, 255, 255, 0.15);
+          background-color: @primary;
           color: @active;
         }
 
@@ -233,12 +237,12 @@ in
         }
 
         .control-center slider {
-          background-color: rgba(42, 39, 63, 0.2);
+          background-color: @primary;
           border-radius: 1rem;
         }
 
         .control-center slider:hover {
-          background-color: rgba(42, 39, 63, 0.3);
+          background-color: @active;
         }
 
         .control-center slider:active {
@@ -308,11 +312,11 @@ in
         }
 
         .widget-buttons-grid button:hover {
-          background-color: rgba(49, 39, 63, 0.3);
+          background-color: @destructive;
         }
 
         .widget-buttons-grid button:checked {
-          background-color: alpha(#000000, .55);
+          background-color: @active;
           color: @text;
           box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
         }

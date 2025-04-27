@@ -18,7 +18,7 @@ in
       #~~~ user applications
       "${modifier}, return, exec, ${lib.getExe config.wrapped.alacritty} msg create-window"
       "${modifier}, e, exec, ${lib.getExe config.wrapped.pcmanfm-qt}"
-      ", Print, exec, ${config.wrapped.flameshot} gui"
+      ", Print, exec, ${lib.getExe config.wrapped.flameshot} gui"
       "${modifier}, r, exec, ${lib.getExe pkgs.rofi} -show drun"
       "${modifier}, v, exec, ${lib.getExe config.wrapped.vscode} --ozone-platform=wayland"
 

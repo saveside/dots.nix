@@ -89,13 +89,13 @@ in
       skins = {
         "stylix" =
           let
-            foreground = config.colors.textColor;
-            background = config.colors.backgroundColor;
-            active = config.colors.activeColor;
-            inactive = config.colors.inactiveColor;
-            inactive2 = config.colors.inactiveColor2;
-            text = config.colors.textColor;
-            urgent = config.colors.urgentColor;
+            foreground = config.lib.stylix.colors.withHashtag.base05;
+            background = config.lib.stylix.colors.withHashtag.base00;
+            active = config.lib.stylix.colors.withHashtag.base0D; # Using base0D as a common active color
+            inactive = config.lib.stylix.colors.withHashtag.base03;
+            inactive2 = config.lib.stylix.colors.withHashtag.base04; # Using base04 as a secondary inactive color
+            text = config.lib.stylix.colors.withHashtag.base05;
+            urgent = config.lib.stylix.colors.withHashtag.base08; # Using base08 as a common urgent color
           in
           {
             k9s = {

@@ -27,14 +27,13 @@ in
       image-size=128
     '';
     xdg.configFile."gtklock/style.css".text = ''
-        @define-color background ${config.colors.backgroundColor};
-        @define-color foreground ${config.colors.textColor};
-        @define-color active ${config.colors.activeColor};
-        @define-color inactive ${config.colors.inactiveColor};     
-        @define-color inactive2 ${config.colors.inactiveColor2};
+        @define-color background ${config.lib.stylix.colors.withHashtag.base00};
+        @define-color foreground ${config.lib.stylix.colors.withHashtag.base05};
+        @define-color active ${config.lib.stylix.colors.withHashtag.base0D};
+        @define-color inactive ${config.lib.stylix.colors.withHashtag.base03};     
+        @define-color inactive2 ${config.lib.stylix.colors.withHashtag.base03};
         @define-color primary ${config.lib.stylix.colors.withHashtag.base05};
-        @define-color destructive ${config.colors.urgentColor};
-
+        @define-color destructive ${config.lib.stylix.colors.withHashtag.base0C};
 
       @keyframes fadeIn {
         from {

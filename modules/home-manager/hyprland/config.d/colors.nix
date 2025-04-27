@@ -2,12 +2,12 @@
 
 {
   wayland.windowManager.hyprland.settings = {
-    "$background" = "rgb(${lib.strings.removePrefix "#" config.colors.backgroundColor})";
-    "$foreground" = "rgb(${lib.strings.removePrefix "#" config.colors.textColor})";
-    "$active" = "rgb(${lib.strings.removePrefix "#" config.colors.activeColor})";
-    "$inactive" = "rgb(${lib.strings.removePrefix "#" config.colors.inactiveColor})";
-    "$inactive2" = "rgb(${lib.strings.removePrefix "#" config.colors.inactiveColor2})";
-    "$urgent" = "rgb(${lib.strings.removePrefix "#" config.colors.urgentColor})";
+    "$background" = "rgb(${config.lib.stylix.colors.base00})";
+    "$foreground" = "rgb(${config.lib.stylix.colors.base05})";
+    "$active" = "rgb(${config.lib.stylix.colors.base0D})";
+    "$inactive" = "rgb(${config.lib.stylix.colors.base03})";
+    "$inactive2" = "rgb(${config.lib.stylix.colors.base03})"; # Assuming inactive2 maps to base03 as well
+    "$urgent" = "rgb(${config.lib.stylix.colors.base0C})";
     "$primary" = "rgb(${config.lib.stylix.colors.base05})";
     "$secondary" = "rgb(${config.lib.stylix.colors.base0D})";
   };

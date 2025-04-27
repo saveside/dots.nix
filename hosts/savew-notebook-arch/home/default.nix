@@ -42,7 +42,6 @@
   #~ custom modules ~#
   moduleopts = {
     fontconfig.enable = true;
-    gtk.enable = true;
     kde.enable = true;
     sway.enable = false;
     qt.enable = true;

@@ -3,4 +3,4 @@
   pkgs,
   ...
 }:
-(config.lib.nixGL.wrap pkgs.ags)
+(config.lib.nixGL.wrap pkgs.ags_1)
