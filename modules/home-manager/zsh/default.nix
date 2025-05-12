@@ -23,6 +23,7 @@ in
       autosuggestion.enable = true;
       initContent = lib.mkOrder 500 ''
         export PATH="${home}/.local/share/JetBrains/Toolbox/scripts:${home}/.local/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:${home}/.nix-profile/sbin:${home}/.nix-profile/bin:$PATH";
+        export XDG_DATA_DIRS="${home}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:${home}/.local/share:/usr/local/share:/usr/share:${home}/.nix-profile/share:$XDG_DATA_DIRS";
       '';
       shellAliases = {
         c = "clear";
@@ -39,6 +40,7 @@ in
         yt = "${lib.getExe pkgs.yt-dlp} --format 'bestvideo[height<=1080]+bestaudio'";
         yt-album = "${lib.getExe pkgs.yt-dlp} -o \"${config.home.homeDirectory}/Music/Albums/%(album)s - %(artist)s/%(playlist_autonumber)02d - %(track)s.%(ext)s\"";
         yt-music = "${lib.getExe pkgs.yt-dlp} -o \"${config.home.homeDirectory}/Music/Artists/%(artist)s/%(album)s/%(title)s.%(ext)s\"";
+        k = "kubectl";
       };
       plugins = [
         {
