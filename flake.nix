@@ -2,11 +2,11 @@
   description = "Save's Honey Flakes";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     unixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -27,20 +27,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
-
-    nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     matugen = {
       url = "github:/InioX/Matugen";
     };
 
     agenix.url = "github:ryantm/agenix";
-    zen-browser.url = "github:youwen5/zen-browser-flake";
-    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -50,7 +41,12 @@
         name: system:
         import inputs.${name} {
           inherit system;
-          config.allowUnfree = true;
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [
+              "electron-39.8.10"
+            ];
+          };
         };
 
       mkHost =
@@ -86,11 +82,11 @@
                   hostType = type;
                 };
                 users.savew = {
-                  imports = [ ./home/${type} ];
+                  imports = [ ./home/profiles/${type}.nix ];
                   home = {
                     username = "savew";
                     homeDirectory = "/home/savew";
-                    stateVersion = "25.11";
+                    stateVersion = "26.05";
                   };
                 };
               };

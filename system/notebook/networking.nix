@@ -60,4 +60,7 @@
 
   services.tailscale.enable = true;
   programs.localsend.openFirewall = true;
+  networking.networkmanager.wifi.powersave = false;
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 }

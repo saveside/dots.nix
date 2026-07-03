@@ -4,8 +4,8 @@
 
 {
   imports = [
-    ./shell.nix
-    ./kubernetes.nix
+    ./modules/shell.nix
+    ./modules/kubernetes.nix
   ];
 
   #############################################################################

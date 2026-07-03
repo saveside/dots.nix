@@ -1,6 +1,6 @@
 # dots.nix
 
-NixOS configuration with multi-host support and modular system/home separation.
+A personal NixOS dotfiles.
 
 ## Structure
 
@@ -14,18 +14,36 @@ dots.nix/
 │       ├── disk.nix             # Disko partition layout
 │       └── vars.nix             # Host variables (monitors, etc.)
 ├── system/
-│   └── <hostname>/              # Per-host system configuration
+│   └── <type>/                  # Shared system config by host type
 │       ├── default.nix          # Main entry, imports modules
 │       ├── boot.nix             # Boot loader, kernel
 │       ├── networking.nix       # Network, DNS, VPN
 │       ├── users.nix            # User accounts
-│       └── ...                  # Host-specific modules
+│       └── ...                  # Type-specific modules
 ├── home/
-│   ├── <hostname>.nix           # Per-host home-manager config
 │   ├── base.nix                 # Shared base (shell, CLI tools)
-│   └── desktop/                 # Desktop modules (hyprland, etc.)
-└── secrets/                     # Agenix encrypted secrets
-```
+│   ├── modules/
+│   │   ├── shell.nix            # Zsh, starship, aliases
+│   │   ├── editors.nix          # Zed, nixvim
+│   │   ├── browsers.nix         # Chromium
+│   │   ├── media.nix            # MPD, ncmpcpp, mpv, yt-dlp
+│   │   ├── kubernetes.nix       # kubectl, k9s, krew
+│   │   ├── opencode.nix         # opencode AI config
+│   │   ├── desktop/
+│   │   │   ├── hyprland/        # Hyprland WM (settings, keybinds, etc.)
+│   │   │   └── sway/            # Sway WM (settings, colors, keybinds, startup)
+│   │   ├── apps/                # Application configs
+│   │   │   ├── alacritty.nix
+│   │   │   ├── librewolf.nix
+│   │   │   ├── zathura.nix
+│   │   │   └── vicinae.nix
+│   │   └── tools/               # htop, mangohud, etc.
+│   ├── profiles/
+│   │   ├── notebook.nix         # Notebook profile (Hyprland + sway + apps)
+│   │   └── honeybee.nix         # Server profile (CLI only)
+│   └── scripts/                 # Utility scripts
+├── secrets/                     # Agenix encrypted secrets
+└── flake.lock
 
 ## Current Hosts
 
@@ -42,118 +60,6 @@ sudo nixos-rebuild switch --flake .#notebook
 
 # Rebuild honeybee
 sudo nixos-rebuild switch --flake .#honeybee
-```
-
-## Adding a New Host
-
-### 1. Create host directory
-
-```bash
-mkdir -p hosts/myhost
-```
-
-### 2. Create host files
-
-**`hosts/myhost/default.nix`**
-```nix
-{ ... }:
-{
-  imports = [
-    ./hardware.nix
-    ./disk.nix
-  ];
-
-  networking.hostName = "savew-myhost";
-  system.stateVersion = "25.11";
-}
-```
-
-**`hosts/myhost/hardware.nix`**
-```bash
-nixos-generate-config --show-hardware-config > hosts/myhost/hardware.nix
-```
-
-**`hosts/myhost/vars.nix`**
-```nix
-# For desktop hosts
-{ type }:
-{
-  monitors = [
-    {
-      name = "HDMI-A-1";
-      width = 1920;
-      height = 1080;
-      refresh = 60;
-      position = "0x0";
-      scale = 1;
-      disabled = false;
-    }
-  ];
-}
-
-# For server hosts (empty monitors)
-{ type }:
-{
-  monitors = [];
-}
-```
-
-### 3. Create system configuration
-
-```bash
-mkdir -p system/myhost
-```
-
-**`system/myhost/default.nix`**
-```nix
-{ ... }:
-{
-  imports = [
-    ./boot.nix
-    ./networking.nix
-    ./users.nix
-    # Add more modules as needed
-  ];
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  programs.zsh.enable = true;
-  time.timeZone = "Europe/Istanbul";
-  i18n.defaultLocale = "en_US.UTF-8";
-}
-```
-
-### 4. Create home configuration
-
-**`home/myhost.nix`**
-```nix
-{ inputs, ... }:
-{
-  imports = [
-    inputs.nixvim.homeModules.nixvim
-    ./base.nix
-    ./editors.nix
-    # Add desktop modules for GUI hosts:
-    # ./desktop/hyprland
-    # ./browsers.nix
-    # ./media.nix
-  ];
-
-  programs.home-manager.enable = true;
-}
-```
-
-### 5. Register host in flake.nix
-
-```nix
-flake.nixosConfigurations = {
-  # ...existing hosts...
-
-  myhost = mkHost {
-    name = "myhost";
-    type = "myhost";           # Matches system/myhost/ and home/myhost.nix
-    system = "x86_64-linux";   # or "aarch64-linux"
-  };
-};
 ```
 
 ## mkHost Options
@@ -190,11 +96,20 @@ Access host variables via `vars`:
 - `services.nix` - SSH, system services (server only)
 - `users.nix` - User accounts and groups
 
-### Home Modules (shared)
+### Home Modules (under `home/modules/`)
 
-- `base.nix` - Shell, git, CLI tools (all hosts)
-- `editors.nix` - Neovim/nixvim configuration
-- `desktop/hyprland/` - Hyprland window manager config
-- `browsers.nix` - Browser configurations
-- `media.nix` - Media applications
-- `tools.nix` - Various utilities
+- `shell.nix` - Zsh, starship, aliases
+- `editors.nix` - Zed editor configuration
+- `browsers.nix` - Chromium configuration
+- `media.nix` - MPD, ncmpcpp, rmpc, mpv, yt-dlp
+- `kubernetes.nix` - kubectl, k9s, krew, kubecolor
+- `opencode.nix` - opencode AI assistant configuration
+- `desktop/hyprland/` - Hyprland WM (settings, keybinds, colors, rules, startup, idle, lock)
+- `desktop/sway/` - Sway WM (settings, colors, keybinds, startup) + waybar, swaync
+- `apps/` - Application configs (alacritty, librewolf, zathura, vicinae/rofi)
+- `tools/` - htop, mangohud
+
+### Profiles (under `home/profiles/`)
+
+- `notebook.nix` - Full desktop profile: Hyprland + sway, all apps, kubernetes, media, etc.
+- `honeybee.nix` - Headless server profile: base + editors only

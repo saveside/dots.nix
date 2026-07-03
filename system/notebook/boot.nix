@@ -6,16 +6,16 @@
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot/efi";
     };
 
-    kernelPackages = pkgs.linuxPackages_xanmod_latest;
+    kernelPackages = pkgs.linuxPackages_latest;
 
     kernelParams = [
       "zswap.enabled=1"
       "zswap.max_pool_percent=6"
       "zswap.compressor=zstd"
       "skew_tick=1"
-      "intel_iommu=on"
       "iommu=pt"
     ];
   };

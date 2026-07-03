@@ -7,7 +7,7 @@
     ./networking.nix
     ./sound.nix
     ./nvidia.nix
-    ./hyprland.nix
+    ./sway.nix
     ./virtualization.nix
     ./scheduling.nix
     ./users.nix
@@ -24,6 +24,13 @@
   ];
 
   programs.zsh.enable = true;
+  hardware.bluetooth = {
+  	enable = true;
+  	powerOnBoot = false;
+  };
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+  services.devmon.enable = true;
 
   time.timeZone = "Europe/Istanbul";
   i18n.defaultLocale = "en_US.UTF-8";

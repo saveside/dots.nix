@@ -3,7 +3,6 @@
 {
   imports = [
     ./hardware.nix
-    ./disk.nix
   ];
 
   networking.hostName = "savew-notebook";
@@ -22,17 +21,5 @@
     "127.0.0.1" = [ "yagis.me" ];
   };
 
-  # Caddy reverse proxy
-  services.caddy = {
-    enable = true;
-    virtualHosts = {
-      "sync.yagis.me" = {
-        extraConfig = ''
-          reverse_proxy localhost:8384
-        '';
-      };
-    };
-  };
-
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 }
