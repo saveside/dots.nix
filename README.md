@@ -44,6 +44,7 @@ dots.nix/
 │   └── scripts/                 # Utility scripts
 ├── secrets/                     # Agenix encrypted secrets
 └── flake.lock
+```
 
 ## Current Hosts
 
