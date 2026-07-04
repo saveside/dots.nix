@@ -7,9 +7,7 @@
     ../modules/desktop/hyprland
     ../modules/editors.nix
     ../modules/opencode.nix
-    ../modules/media.nix
     ../modules/desktop/sway
-    ../modules/browsers.nix
     ../modules/tools
     ../modules/desktop/sway/waybar.nix
     ../modules/apps/alacritty.nix
@@ -73,7 +71,6 @@
     ethtool
     neovim
     perf
-    phoronix-test-suite
     geekbench
     pfetch
     gh
@@ -87,10 +84,6 @@
     cbonsai
     pcmanfm-qt
     cmake
-    firefox
-    brave
-    _1password-gui
-    _1password-cli
     steam
     steam-devices-udev-rules
     protonup-qt
@@ -108,7 +101,6 @@
     pamixer
     rnnoise-plugin
     playerctl
-    cava
     kew
     fira-code
     hack-font
@@ -141,9 +133,6 @@
     papirus-folders
     nwg-look
     adw-gtk3
-    postgresql_18
-    hyprlandPlugins.hyprspace
-    vesktop
     bitwarden-cli
     bitwarden-desktop
     jetbrains.datagrip

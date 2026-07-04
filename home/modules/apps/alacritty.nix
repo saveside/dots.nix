@@ -1,82 +1,74 @@
 { config, pkgs, ... }:
-
 let
   vesperTheme = {
     primary = {
-      foreground = "#ffffff";
+      foreground = "#c0d0e0";
       background = "#000000";
     };
-
     cursor = {
-      text = "#ffffff";
-      cursor = "#acb1ab";
+      text = "#000000";
+      cursor = "#8ab4f8";
     };
-
     selection = {
-      text = "#b9beb8";
-      background = "#988049";
+      text = "#c0d0e0";
+      background = "#2c4f7c";
     };
-
     normal = {
-      black = "#101010";
-      red = "#f5a191";
-      green = "#90b99f";
-      yellow = "#e6b99d";
-      blue = "#aca1cf";
-      magenta = "#e29eca";
-      cyan = "#ea83a5";
-      white = "#a0a0a0";
+      black = "#0d1117";
+      red = "#e06c75";
+      green = "#7dc4a0";
+      yellow = "#e5c07b";
+      blue = "#5f9fe0";
+      magenta = "#8aa1e6";
+      cyan = "#61afef";
+      white = "#a0b0c0";
     };
-
     bright = {
-      black = "#7e7e7e";
-      red = "#ff8080";
-      green = "#99ffe4";
-      yellow = "#ffc799";
-      blue = "#b9aeda";
-      magenta = "#ecaad6";
-      cyan = "#f591b2";
-      white = "#ffffff";
+      black = "#5c6773";
+      red = "#f28b8b";
+      green = "#98d8b0";
+      yellow = "#f0d090";
+      blue = "#8ab4f8";
+      magenta = "#a9b8f0";
+      cyan = "#87d0ff";
+      white = "#e0ecff";
     };
   };
 in
 {
   programs.alacritty = {
     enable = true;
-    
+
     settings = {
       general = {
         ipc_socket = true;
       };
-
       env = {
         TERM = "xterm-256color";
       };
-
       font = {
         size = 10;
-        
+
         normal = {
           family = "JetBrainsMono Nerd Font";
           style = "Bold";
         };
-        
+
         bold = {
           family = "Monaspace Neon";
           style = "ExtraBold";
         };
-        
+
         bold_italic = {
           family = "Monaspace Neon";
           style = "Bold Italic";
         };
-        
+
         italic = {
           family = "Monaspace Neon";
           style = "Italic";
         };
       };
-
       keyboard.bindings = [
         {
           action = "IncreaseFontSize";
@@ -89,7 +81,6 @@ in
           mods = "Control|Shift";
         }
       ];
-
       window = {
         opacity = 0.85;
         padding = {
@@ -97,7 +88,6 @@ in
           y = 15;
         };
       };
-
       colors = vesperTheme;
     };
   };
