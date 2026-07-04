@@ -211,8 +211,9 @@
       #battery,
       #group-tray-expander,
       #tray {
-          background-color: #ffffff;
-          color: #000000;
+          background-color: #141414;
+          color: #fffffe;
+          border: 1px solid #2a2a2a;
           border-radius: 0;
           margin: 4px 2px;
           padding: 0 8px;
@@ -234,8 +235,9 @@
       }
 
       #workspaces button.focused {
-          background-color: #ffffff;
-          color: #000000;
+          background-color: #141414;
+          border: 1px solid #2a2a2a;
+          color: #ffffff;
       }
 
       #workspaces button.urgent {
