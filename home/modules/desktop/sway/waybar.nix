@@ -83,7 +83,7 @@
 
         "custom/tray-expand-icon" = {
           format = " ";
-          tooltip = false; # Fixed typo from 'oltip' in raw JSON
+          tooltip = false;
         };
 
         "group/tray-expander" = {
@@ -114,7 +114,7 @@
             critical = 15;
           };
           format = "{icon} {capacity}%";
-          format-charging = " {capacity}%";
+          format-charging = "e{capacity}%";
           format-plugged = " {capacity}%";
           format-icons = [ "" "" "" "" "" ];
           on-click = "ags -t quicksettings";
@@ -132,16 +132,17 @@
         };
 
         "custom/vpn" = {
-          tooltip = false;
+          tooltip = true;
           format = "VPN {}";
-          exec = "mullvad status | grep -q 'Connected' && echo '' || echo ''";
+          return-type = "json";
+          exec = "if ivpn status | grep -q ' : CONNECTED'; then LOCATION=$(ivpn status | awk -F', ' 'NR==2 {print $2 \", \" $3}'); echo \"{\\\"text\\\": \\\"\\\", \\\"class\\\": \\\"connected\\\", \\\"tooltip\\\": \\\"$LOCATION\\\"}\"; else echo '{\"text\": \"\", \"class\": \"disconnected\", \"tooltip\": \"Disconnected\"}'; fi";
           interval = 1;
-          on-click = "mullvad connect";
-          on-click-right = "mullvad disconnect";
+          on-click = "ivpn connect -any";
+          on-click-right = "ivpn disconnect";
         };
 
         network = {
-          format-wifi = " {essid}";
+          format-wifi = " {essid}";
           format-ethernet = "⬇{bandwidthDownBytes} ⬆{bandwidthUpBytes}";
           interval = 3;
           format-linked = "{ifname} (No IP) ";
