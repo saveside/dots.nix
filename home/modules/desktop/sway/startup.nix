@@ -23,5 +23,8 @@
     {
       command = "${pkgs.flameshot}/bin/flameshot";
     }
+    {
+      command = "${pkgs.waypaper}/bin/waypaper --restore";
+    }
   ];
 }
