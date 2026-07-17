@@ -151,5 +151,6 @@
     man-pages
     man-pages-posix
     uzdoom
+    claude-code
   ];
 }

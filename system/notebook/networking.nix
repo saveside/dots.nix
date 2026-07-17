@@ -2,6 +2,7 @@
 { ... }:
 
 {
+  services.ivpn.enable = true;
   networking.networkmanager.enable = true;
 
   networking.nameservers = [
@@ -10,23 +11,33 @@
   ];
 
   services.resolved = {
-    enable = true;
-    dnsovertls = "true";
-    dnssec = "true";
-    domains = [ "~." ];
-    llmnr = "true";
-    fallbackDns = [
-      "9.9.9.9"
-      "149.112.112.112"
-    ];
-  };
+      enable = true;
+      settings = {
+        Resolve = {
+          DNS = [
+            "9.9.9.9#dns.quad9.net"
+            "149.112.112.112#dns.quad9.net"
+          ];
+          DNSOverTLS = "true";
+          DNSSEC = "true";
+          Domains = [ "~." ];
+          FallbackDNS = [
+            "9.9.9.9#dns.quad9.net"
+            "149.112.112.112#dns.quad9.net"
+          ];
+        };
+      };
+    };
+  networking.networkmanager.dns = "systemd-resolved";
+
+  boot.blacklistedKernelModules = [ "btusdb" ];
 
   services.zapret = {
     enable = true;
     params = [
+      "--filter-tcp=80,443"
       "--dpi-desync=fake --dpi-desync-ttl=3"
-      "--dpi-desync=fake --dpi-desync-ttl=3"
-      "--dpi-desync=fake --dpi-desync-ttl=3"
+      #"--filter-udp=443"
     ];
     whitelist = [
       "discord.com"
@@ -63,4 +74,10 @@
   networking.networkmanager.wifi.powersave = false;
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 4242 ];
+    allowedUDPPorts = [ 5353 ];
+  };
 }
