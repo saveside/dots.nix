@@ -17,7 +17,11 @@
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
-    package = pkgs.swayfx;
+    package = pkgs.sway;
+    extraOptions = [
+      "--unsupported-gpu"
+      "--my-next-gpu-wont-be-nvidia"
+    ];
   };
 
   services.displayManager.ly.enable = true;
@@ -56,5 +60,25 @@
     INTEL_DEBUG = "noccs";
     WEBRTC_USE_PIPEWIRE = "1";
     NIXOS_OZONE_WL = "1";
+  };
+
+  services.tlp = {
+    enable = true;
+    settings = {
+      # Disable Wi-Fi power saving entirely
+      WIFI_PWR_ON_AC = "off";
+      WIFI_PWR_ON_BAT = "off";
+    };
+  };
+  networking.networkmanager.wifi.powersave = false;
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlo1", RUN+="${pkgs.iw}/bin/iw dev wlo1 set power_save off"
+  '';
+  boot.kernelParams = [
+    "iwlwifi.power_save=0"
+    "iwlmvm.power_scheme=1"
+  ];
+  services.asusd = {
+    enable = true;
   };
 }
