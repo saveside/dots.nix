@@ -3,35 +3,35 @@
 {
   wayland.windowManager.sway.config.colors = {
     focused = {
-      border = "#52525b";
-      background = "#27272a";
-      text = "#f4f4f5";
-      indicator = "#a1a1aa";
-      childBorder = "#52525b";
+      border = "#8ba4b0";
+      background = "#181616";
+      text = "#c5c9c5";
+      indicator = "#8ea4a2";
+      childBorder = "#8ba4b0";
     };
 
     focusedInactive = {
-      border = "#27272a";
-      background = "#18181b";
-      text = "#a1a1aa";
-      indicator = "#27272a";
-      childBorder = "#27272a";
+      border = "#565f89";
+      background = "#181616";
+      text = "#a6a69c";
+      indicator = "#565f89";
+      childBorder = "#565f89";
     };
 
     unfocused = {
-      border = "#18181b";
-      background = "#18181b";
-      text = "#71717a";
-      indicator = "#18181b";
-      childBorder = "#18181b";
+      border = "#181616";
+      background = "#181616";
+      text = "#565f89";
+      indicator = "#181616";
+      childBorder = "#181616";
     };
 
     urgent = {
-      border = "#ef4444";
-      background = "#7f1d1d";
-      text = "#fca5a5";
-      indicator = "#ef4444";
-      childBorder = "#ef4444";
+      border = "#c4746e";
+      background = "#181616";
+      text = "#e46876";
+      indicator = "#c4746e";
+      childBorder = "#c4746e";
     };
   };
 }

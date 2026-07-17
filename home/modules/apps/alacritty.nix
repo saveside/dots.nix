@@ -1,37 +1,37 @@
 { config, pkgs, ... }:
 let
-  vesperTheme = {
+  tokyoNight = {
     primary = {
-      foreground = "#c0d0e0";
-      background = "#000000";
+      foreground = "#c5c9c5";
+      background = "#181616";
     };
     cursor = {
-      text = "#000000";
-      cursor = "#8ab4f8";
+      text = "#181616";
+      cursor = "#c5c9c5";
     };
     selection = {
-      text = "#c0d0e0";
-      background = "#2c4f7c";
+      text = "#c8c093";
+      background = "#2d4f67";
     };
     normal = {
-      black = "#0d1117";
-      red = "#e06c75";
-      green = "#7dc4a0";
-      yellow = "#e5c07b";
-      blue = "#5f9fe0";
-      magenta = "#8aa1e6";
-      cyan = "#61afef";
-      white = "#a0b0c0";
+      black = "#0d0c0c";
+      red = "#c4746e";
+      green = "#8a9a7b";
+      yellow = "#c4b28a";
+      blue = "#8ba4b0";
+      magenta = "#a292a3";
+      cyan = "#8ea4a2";
+      white = "#c8c093";
     };
     bright = {
-      black = "#5c6773";
-      red = "#f28b8b";
-      green = "#98d8b0";
-      yellow = "#f0d090";
-      blue = "#8ab4f8";
-      magenta = "#a9b8f0";
-      cyan = "#87d0ff";
-      white = "#e0ecff";
+      black = "#a6a69c";
+      red = "#e46876";
+      green = "#87a987";
+      yellow = "#e6c384";
+      blue = "#7fb4ca";
+      magenta = "#938aa9";
+      cyan = "#7aa89f";
+      white = "#c5c9c5";
     };
   };
 in
@@ -82,13 +82,13 @@ in
         }
       ];
       window = {
-        opacity = 0.85;
+        opacity = 1.0;
         padding = {
           x = 15;
           y = 15;
         };
       };
-      colors = vesperTheme;
+      colors = tokyoNight;
     };
   };
 }
