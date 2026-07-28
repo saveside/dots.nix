@@ -98,6 +98,8 @@ Item {
                 width: root.flyoutWidth
                 height: Math.min(parent.height - 20, content.implicitHeight + 24)
                 color: root.bg
+                border { color: root.line; width: 1 }
+                radius: 4
                 opacity: root.open ? 1.0 : 0.0
 
                 Behavior on y       { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }

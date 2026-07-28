@@ -49,6 +49,12 @@ ShellRoot {
     // ---- mpris flyout ---------------------------------------------------
     property bool mprisOpen: false
 
+    // ---- calendar flyout ------------------------------------------------
+    property bool calendarOpen: false
+
+    // ---- battery flyout -------------------------------------------------
+    property bool batteryOpen: false
+
     // ---- active-capture indicators (mic / screencast) -------------------
     property bool micActive:    false
     property bool screenActive: false
@@ -248,11 +254,23 @@ ShellRoot {
                         parent.width - 2 * Math.max(leftRow.width, rightRow.width) - 24)
                     horizontalAlignment: Text.AlignHCenter
                     elide: Text.ElideMiddle
-                    color: root.fg
+                    // Accent when hovered OR calendar is open — signals it's clickable.
+                    color: root.calendarOpen || titleMouse.containsMouse
+                        ? root.accent : root.fg
                     font { family: root.fontFamily; pixelSize: 13; weight: Font.Bold }
                     text: {
                         const t = ToplevelManager.activeToplevel
                         return t && t.title ? t.title : ""
+                    }
+                    Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
+
+                    MouseArea {
+                        id: titleMouse
+                        anchors.fill: parent
+                        anchors.margins: -6
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: root.calendarOpen = !root.calendarOpen
                     }
                 }
 
@@ -446,12 +464,13 @@ ShellRoot {
                     :              "\u{F0079}"   // battery (full)
                 readonly property string text: ok ? pct + "%" : "—"
                 readonly property string tone:
-                    !ok            ? "normal"
-                    : charging     ? "on"
-                    : pct <= 15    ? "danger"
-                    : pct <= 30    ? "warn"
-                    :                "normal"
-                property var onClick: null
+                    root.batteryOpen ? "on"
+                    : !ok            ? "normal"
+                    : charging       ? "on"
+                    : pct <= 15      ? "danger"
+                    : pct <= 30      ? "warn"
+                    :                  "normal"
+                property var onClick: () => root.batteryOpen = !root.batteryOpen
                 property var onClickRight: null
             }
 
@@ -733,6 +752,31 @@ ShellRoot {
                 }
             }
         }
+    }
+
+    // ---- battery flyout (self-contained) --------------------------------
+    Battery {
+        bg:         root.bg
+        fg:         root.fg
+        muted:      root.muted
+        accent:     root.accent
+        line:       root.line
+        danger:     root.danger
+        fontFamily: root.fontFamily
+        open:       root.batteryOpen
+        onCloseRequested: root.batteryOpen = false
+    }
+
+    // ---- calendar flyout (self-contained) ------------------------------
+    Calendar {
+        bg:         root.bg
+        fg:         root.fg
+        muted:      root.muted
+        accent:     root.accent
+        line:       root.line
+        fontFamily: root.fontFamily
+        open:       root.calendarOpen
+        onCloseRequested: root.calendarOpen = false
     }
 
     // ---- toast overlay (self-contained; suppressed when center is open) --

@@ -154,7 +154,8 @@ Item {
                     anchors.left:  parent.left
                     anchors.right: parent.right
                     color: root.bg
-                    // No border, no chip bg per user spec.
+                    border { color: root.line; width: 1 }
+                    radius: 4
                     implicitHeight: contentCol.implicitHeight + 20
 
                     RowLayout {

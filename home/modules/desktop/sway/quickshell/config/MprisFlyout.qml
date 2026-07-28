@@ -72,6 +72,8 @@ Item {
                 width: root.flyoutWidth
                 height: Math.max(inner.implicitHeight + 20, 56)
                 color: root.bg
+                border { color: root.line; width: 1 }
+                radius: 4
                 // Eat clicks so they don't fall through to the dismiss layer
                 MouseArea { anchors.fill: parent; onClicked: {} }
 
