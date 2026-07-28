@@ -37,4 +37,20 @@
       };
     };
   };
+
+  # swayfx effects
+  wayland.windowManager.sway.extraConfig = ''
+    blur enable
+    blur_radius 10
+    blur_passes 3
+    blur_noise 0.02
+    blur_saturation 1.2
+    blur_contrast 1.1
+    shadows disable
+    corner_radius 12
+    layer_effects "rofi" blur enable
+    layer_effects "waybar" blur enable
+    layer_effects "zen-beta" blur enable
+    layer_effects "swaync" blur enable
+  '';
 }

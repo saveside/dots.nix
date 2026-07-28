@@ -68,7 +68,8 @@
           };
           modules = [
             ./hosts/${name}
-            ./system/${type}
+            ./system/common.nix
+            ./system/modules
             inputs.disko.nixosModules.disko
             inputs.agenix.nixosModules.default
             inputs.home-manager.nixosModules.home-manager

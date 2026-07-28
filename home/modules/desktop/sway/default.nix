@@ -10,7 +10,7 @@
 
   wayland.windowManager.sway = {
     enable = true;
-    package = pkgs.sway;
+    package = pkgs.swayfx;
     extraOptions = [
       "--unsupported-gpu"
       "--my-next-gpu-wont-be-nvidia"

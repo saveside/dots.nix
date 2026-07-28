@@ -45,7 +45,7 @@ in
     "${modifier}+Escape" = "workspace back_and_forth";
     "${modifier}+Shift+r" = "reload";
     "${modifier}+f" = "fullscreen toggle";
-    "${modifier}+k" = "exec swaync-client -t";
+    "${modifier}+k" = "exec qs ipc call notif toggle";
     "${modifier}+l" = "exec hyprlock";
     "${modifier}+d" = "exec equibop --ozone-platform-hint=wayland --enable-features=WaylandWindowDecorations --enable-features=AcceleratedVideoDecodeLinuxGL --enable-features=AcceleratedVideoEncoder --enable-features=VaapiIgnoreDriverChecks --enable-features=CanvasOopRasterization --enable-gpu-rasterization --enable-zero-copy --enable-features=WebRTCPipeWireCapturer";
   };

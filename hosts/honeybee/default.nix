@@ -4,12 +4,16 @@
   imports = [
     ./hardware.nix
     ./disk.nix
+    ./boot.nix
+    ./networking.nix
+    ./users.nix
+    ./services.nix
   ];
 
-  networking.hostName = "savew-honeybee";
+  # honeybee is a headless server — no cfg.*.enable flags flipped.
+  # Every feature module in ../../system/modules stays off by default.
 
-  # Host-specific NixOS configuration for honeybee server
-  # Configure your server-specific services here
+  networking.hostName = "savew-honeybee";
 
   system.stateVersion = "25.11";
 }

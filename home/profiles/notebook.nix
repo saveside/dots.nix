@@ -2,16 +2,14 @@
 { inputs, pkgs, ... }:
 
 {
+  # Desktop WM imports (sway, hyprland, quickshell) are pulled in by the
+  # system-level cfg modules when the host flips cfg.sway.enable / cfg.hyprland.enable.
   imports = [
     ../base.nix
-    ../modules/desktop/hyprland
     ../modules/editors.nix
     ../modules/opencode.nix
-    ../modules/desktop/sway
     ../modules/tools
-    ../modules/desktop/sway/waybar.nix
     ../modules/apps/alacritty.nix
-    ../modules/desktop/sway/swaync.nix
     ../modules/apps/vicinae.nix
     ../modules/apps/zathura.nix
     ../modules/apps/librewolf.nix
@@ -139,7 +137,6 @@
     gnumake
     inetutils
     dig
-    quickshell
     qt6.qtbase
     qt6.qtdeclarative
     qt6.qtwayland
@@ -152,5 +149,6 @@
     man-pages-posix
     uzdoom
     claude-code
+    libreoffice
   ];
 }

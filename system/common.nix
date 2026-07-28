@@ -1,12 +1,7 @@
-# Honeybee server system configuration
-{
-  imports = [
-    ./boot.nix
-    ./networking.nix
-    ./services.nix
-    ./users.nix
-  ];
+# Shared system config — applied to every host
+{ ... }:
 
+{
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
