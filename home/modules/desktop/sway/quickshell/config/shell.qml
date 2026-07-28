@@ -232,16 +232,25 @@ ShellRoot {
                         glyph:  "\u{F0F5F}"                          // md-monitor-share
                         label:  "SHARE"
                         active: root.screenActive
-                        onClick: null
-                        // Right-click → destroy every currently running video
-                        // stream node. Kills clingy Discord/OBS previews
-                        // that keep the pipewire stream alive after use.
-                        onClickRight: () => Quickshell.execDetached(["sh", "-c",
+                        // Left-click → force-stop every active screencast.
+                        //   1) systemctl stop portal-wlr — graceful SIGTERM
+                        //      so portal dispatches session-Close on D-Bus
+                        //      to consumers (Discord/OBS/…) *before* dying.
+                        //      Without this, consumers just see frames stop
+                        //      and freeze on the last frame instead of
+                        //      updating their UI.
+                        //   2) pw-cli destroy any lingering video stream
+                        //      nodes as belt-and-suspenders.
+                        //   Portal socket-activates back on next request.
+                        onClick: () => Quickshell.execDetached(["sh", "-c",
+                            "systemctl --user stop xdg-desktop-portal-wlr.service 2>/dev/null; " +
                             "pw-dump 2>/dev/null | " +
                             "jq -r '.[] | select((.info.state // \"\") == \"running\") | " +
                                      "select((.info.props[\"media.class\"] // \"\") | " +
                                      "test(\"^Stream/(Input|Output)/Video$\")) | .id' | " +
-                            "xargs -r -n1 pw-cli destroy"])
+                            "xargs -r -n1 pw-cli destroy 2>/dev/null; " +
+                            "true"])
+                        onClickRight: null
                     }
                 }
 
@@ -777,6 +786,16 @@ ShellRoot {
         fontFamily: root.fontFamily
         open:       root.calendarOpen
         onCloseRequested: root.calendarOpen = false
+    }
+
+    // ---- OSD (volume / mic / brightness — IPC-triggered) ---------------
+    Osd {
+        bg:         root.bg
+        fg:         root.fg
+        muted:      root.muted
+        accent:     root.accent
+        line:       root.line
+        fontFamily: root.fontFamily
     }
 
     // ---- toast overlay (self-contained; suppressed when center is open) --

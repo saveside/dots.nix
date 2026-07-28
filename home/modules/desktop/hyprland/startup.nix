@@ -9,7 +9,6 @@
       "hyprpm reload -n"
       "systemctl --user start vicinae.service"
       "waybar"
-      "swayosd-server"
       "flameshot"
       "nm-applet"
     ];

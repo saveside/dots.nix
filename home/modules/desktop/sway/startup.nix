@@ -12,9 +12,6 @@
       command = "${pkgs.pcmanfm-qt}/bin/pcmanfm-qt --daemon";
     }
     {
-      command = "${pkgs.swayosd}/bin/swayosd-server";
-    }
-    {
       command = "${pkgs.ags}/bin/ags";
     }
     {

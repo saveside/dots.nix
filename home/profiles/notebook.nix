@@ -118,7 +118,7 @@
     flameshot
     waypaper
     swaybg
-    swayosd
+    brightnessctl
     wl-clipboard
     libnotify
     equibop

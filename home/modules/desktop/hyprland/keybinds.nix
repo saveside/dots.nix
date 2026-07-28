@@ -17,21 +17,20 @@
       "$mod, v, exec, code --ozone-platform=wayland"
 
       # Audio / Media
-      "$alt, up, exec, pamixer -i 5"
-      "$alt, down, exec, pamixer -d 5"
+      "$alt, up,   exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0 && qs ipc call osd volume"
+      "$alt, down, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && qs ipc call osd volume"
       "$mod, a, exec, bash ~/.local/bin/status"
       ", XF86AudioPlay, exec, playerctl play-pause"
       ", XF86AudioNext, exec, playerctl next"
       ", XF86AudioPrev, exec, playerctl previous"
 
-      # SwayOSD media keys
-      ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise"
-      ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower"
-      ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
-      ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
-      ", Caps_Lock, exec, swayosd-client --caps-lock"
-      ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
-      ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+      # Volume / mic / brightness — wpctl + brightnessctl, OSD via qs ipc.
+      ", XF86AudioRaiseVolume,  exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0 && qs ipc call osd volume"
+      ", XF86AudioLowerVolume,  exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && qs ipc call osd volume"
+      ", XF86AudioMute,         exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && qs ipc call osd volume"
+      ", XF86AudioMicMute,      exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && qs ipc call osd mic"
+      ", XF86MonBrightnessUp,   exec, brightnessctl s +5% && qs ipc call osd brightness"
+      ", XF86MonBrightnessDown, exec, brightnessctl s 5%- && qs ipc call osd brightness"
 
       # Screenshot
       ", Print, exec, env XDG_CURRENT_DESKTOP=sway XDG_SESSION_DESKTOP=sway QT_QPA_PLATFORM=wayland flameshot gui"

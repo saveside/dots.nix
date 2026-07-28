@@ -32,12 +32,18 @@ in
     "Print" = "exec ${pkgs.flameshot}/bin/flameshot gui -r | wl-copy";
     "${modifier}+e" = "exec pcmanfm-qt";
     "${modifier}+Control+space" = "floating toggle";
-    "${alt}+Up" = "exec \"pamixer -i 5\"";
-    "${alt}+Down" = "exec \"pamixer -d 5\"";
-    "XF86AudioRaiseVolume" = "exec swayosd-client --output-volume raise";
-    "XF86AudioLowerVolume" = "exec swayosd-client --output-volume lower";
-    "XF86AudioMute" = "exec swayosd-client --output-volume mute-toggle";
-    "XF86AudioMicMute" = "exec swayosd-client --input-volume mute-toggle";
+    "${alt}+Up"   = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0 && qs ipc call osd volume";
+    "${alt}+Down" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && qs ipc call osd volume";
+    # Volume / mic — wpctl mutates PW, then IPC nudges the OSD to redraw.
+    "XF86AudioRaiseVolume"  = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.0 && qs ipc call osd volume";
+    "XF86AudioLowerVolume"  = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && qs ipc call osd volume";
+    "XF86AudioMute"         = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && qs ipc call osd volume";
+    "XF86AudioMicMute"      = "exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && qs ipc call osd mic";
+
+    # Brightness — brightnessctl + IPC (Quickshell polls brightnessctl on receive).
+    "XF86MonBrightnessUp"   = "exec brightnessctl s +5% && qs ipc call osd brightness";
+    "XF86MonBrightnessDown" = "exec brightnessctl s 5%- && qs ipc call osd brightness";
+
     "XF86AudioPlay" = "exec playerctl play-pause";
     "XF86AudioNext" = "exec playerctl next";
     "XF86AudioPrev" = "exec playerctl previous";
