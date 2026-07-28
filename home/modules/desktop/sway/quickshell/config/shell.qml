@@ -44,6 +44,10 @@ ShellRoot {
 
     // ---- mpris flyout ---------------------------------------------------
     property bool mprisOpen: false
+
+    // ---- active-capture indicators (mic / screencast) -------------------
+    property bool micActive:    false
+    property bool screenActive: false
     // Short-lived toast queue. Each entry = { n: Notification, expiresAt: ms }.
     property var activeToasts: []
     function removeToast(target) {
@@ -133,6 +137,41 @@ ShellRoot {
         onTriggered: netProc.running = true
     }
 
+    // ---- mic / screencast poller ----------------------------------------
+    // Mic: any pactl source-output that is RUNNING, not corked, and not a
+    //      *.monitor loopback of a sink.
+    // Screencast: xdg-desktop-portal creates a "Stream/Output/Video" node
+    //      in Pipewire while a screencast session is live.
+    Process {
+        id: mediaCapProc
+        running: true
+        command: ["sh", "-c",
+            "d=$(pw-dump 2>/dev/null); " +
+            // Mic: pactl (fast, well-formed) — skip corked + sink monitors.
+            "m=0; pactl list source-outputs 2>/dev/null | " +
+            "awk 'BEGIN{RS=\"\"} /State: RUNNING/ && !/Corked: yes/ && !/Source: .*\\.monitor/ {found=1} END{exit !found}' && m=1; " +
+            // Screen: any *running* Stream/(Input|Output)/Video node.
+            //   Excludes Video/Source (webcams register that permanently).
+            //   Excludes idle/suspended streams left open by chat apps.
+            "s=0; echo \"$d\" | jq -e 'any(.[]; (.info.state // \"\") == \"running\" and ((.info.props[\"media.class\"] // \"\") | test(\"^Stream/(Input|Output)/Video$\")))' >/dev/null 2>&1 && s=1; " +
+            "echo \"$m $s\""]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const parts = text.trim().split(/\s+/)
+                const m = parts[0] === "1"
+                const s = parts[1] === "1"
+                if (m !== root.micActive || s !== root.screenActive)
+                    console.log("[capture] mic=" + m + " screen=" + s + "  raw='" + text.trim() + "'")
+                root.micActive    = m
+                root.screenActive = s
+            }
+        }
+    }
+    Timer {
+        interval: 2500; running: true; repeat: true
+        onTriggered: mediaCapProc.running = true
+    }
+
     // ---- idle inhibit (systemd-inhibit) ----------------------------------
     Process {
         id: inhibitProc
@@ -168,14 +207,44 @@ ShellRoot {
             Item {
                 anchors.fill: parent
 
+                // Sleek 1px stroke sitting flush against the bar's bottom edge.
+                Rectangle {
+                    anchors.left:   parent.left
+                    anchors.right:  parent.right
+                    anchors.bottom: parent.bottom
+                    height: 1
+                    color: root.line          // faint gray, matches separators elsewhere
+                }
+
                 Row {
                     id: leftRow
                     anchors.left: parent.left
                     anchors.leftMargin: 14
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 20
+                    spacing: 12
                     Workspaces { }
                     MprisChip { }
+                    AlertChip {
+                        glyph:  "\u{F036C}"                          // md-microphone
+                        label:  "MIC"
+                        active: root.micActive
+                        onClick: () => Quickshell.execDetached(["pavucontrol", "-t", "1"])
+                    }
+                    AlertChip {
+                        glyph:  "\u{F0F5F}"                          // md-monitor-share
+                        label:  "SHARE"
+                        active: root.screenActive
+                        onClick: null
+                        // Right-click → destroy every currently running video
+                        // stream node. Kills clingy Discord/OBS previews
+                        // that keep the pipewire stream alive after use.
+                        onClickRight: () => Quickshell.execDetached(["sh", "-c",
+                            "pw-dump 2>/dev/null | " +
+                            "jq -r '.[] | select((.info.state // \"\") == \"running\") | " +
+                                     "select((.info.props[\"media.class\"] // \"\") | " +
+                                     "test(\"^Stream/(Input|Output)/Video$\")) | .id' | " +
+                            "xargs -r -n1 pw-cli destroy"])
+                    }
                 }
 
                 Text {
@@ -500,6 +569,108 @@ ShellRoot {
                                 }
                             }
                         }
+                    }
+                }
+            }
+
+            // ---- solid white "alert" pill ------------------------------
+            // Active-capture indicator: mic in use / screencast live.
+            // White bg, black icon + tiny caps label, red LED pulse dot.
+            // Bounce-in on appear, hover scales up subtly.
+            component AlertChip: Item {
+                id: ac
+                property string glyph: ""
+                property string label: ""
+                property bool active: false
+                property var onClick: null
+                property var onClickRight: null
+                property bool hover: false
+
+                // Zero footprint when inactive so leftRow doesn't reserve space.
+                visible: pill.implicitWidth > 1
+                implicitHeight: 22
+                implicitWidth: pill.implicitWidth
+
+                Rectangle {
+                    id: pill
+                    anchors.verticalCenter: parent.verticalCenter
+                    implicitHeight: ac.implicitHeight
+                    // Width slides open on activate → creates a subtle
+                    // "reveal" animation as the pill grows into place.
+                    implicitWidth: ac.active
+                        ? pillRow.implicitWidth + 14
+                        : 0
+                    Behavior on implicitWidth {
+                        NumberAnimation { duration: 260; easing.type: Easing.OutBack }
+                    }
+
+                    color: root.accent
+                    radius: height / 2                    // perfect pill
+
+                    // Scale/opacity affordance for hover + appear.
+                    scale: ac.active ? (ac.hover ? 1.06 : 1.0) : 0.6
+                    opacity: ac.active ? (ac.hover ? 0.92 : 1.0) : 0.0
+                    Behavior on scale   { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                    Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                    clip: true
+
+                    Row {
+                        id: pillRow
+                        anchors.centerIn: parent
+                        spacing: 5
+
+                        // Red REC-style LED, breathes while live.
+                        Rectangle {
+                            id: dot
+                            width: 6; height: 6
+                            radius: 3
+                            color: root.danger
+                            anchors.verticalCenter: parent.verticalCenter
+                            SequentialAnimation on opacity {
+                                running: ac.active
+                                loops: Animation.Infinite
+                                NumberAnimation { to: 0.35; duration: 900; easing.type: Easing.InOutSine }
+                                NumberAnimation { to: 1.0;  duration: 900; easing.type: Easing.InOutSine }
+                            }
+                        }
+
+                        Text {
+                            text: ac.glyph
+                            color: root.bg
+                            font { family: root.fontFamily; pixelSize: 12; weight: Font.Bold }
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        Text {
+                            text: ac.label
+                            color: root.bg
+                            visible: text.length > 0
+                            anchors.verticalCenter: parent.verticalCenter
+                            // Tiny bold caps with letter-spacing → "TAG" feel.
+                            font {
+                                family: root.fontFamily
+                                pixelSize: 9
+                                weight: Font.Black
+                                letterSpacing: 1.1
+                                capitalization: Font.AllUppercase
+                            }
+                        }
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    cursorShape: (ac.onClick || ac.onClickRight)
+                        ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    onEntered: ac.hover = true
+                    onExited:  ac.hover = false
+                    onClicked: mouse => {
+                        if (mouse.button === Qt.RightButton && ac.onClickRight)
+                            ac.onClickRight()
+                        else if (ac.onClick)
+                            ac.onClick()
                     }
                 }
             }
