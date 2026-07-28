@@ -28,7 +28,7 @@ in
     "${modifier}+Shift+8" = "move container to workspace number 8";
     "${modifier}+Shift+9" = "move container to workspace number 9";
     "${modifier}+Shift+0" = "move container to workspace number 0";
-    "${modifier}+r" = "exec ${pkgs.rofi}/bin/rofi -show drun";
+    "${modifier}+r" = "exec ${pkgs.vicinae}/bin/vicinae toggle";
     "Print" = "exec ${pkgs.flameshot}/bin/flameshot gui -r | wl-copy";
     "${modifier}+e" = "exec pcmanfm-qt";
     "${modifier}+Control+space" = "floating toggle";

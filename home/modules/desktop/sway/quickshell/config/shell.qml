@@ -41,6 +41,9 @@ ShellRoot {
     // IPC-driven state (super+k / DND toggle in center / bar chip).
     property bool notifOpen: false
     property bool dnd:       false
+
+    // ---- mpris flyout ---------------------------------------------------
+    property bool mprisOpen: false
     // Short-lived toast queue. Each entry = { n: Notification, expiresAt: ms }.
     property var activeToasts: []
     function removeToast(target) {
@@ -551,18 +554,17 @@ ShellRoot {
                     id: mMouse
                     anchors.fill: parent
                     hoverEnabled: true
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
                     cursorShape: Qt.PointingHandCursor
                     onClicked: mouse => {
                         if (!m.player) return
                         if (mouse.button === Qt.RightButton) {
                             if (m.player.next) m.player.next()
-                        } else if (m.player.togglePlaying) {
-                            m.player.togglePlaying()
-                        } else if (m._playing && m.player.pause) {
-                            m.player.pause()
-                        } else if (m.player.play) {
-                            m.player.play()
+                        } else if (mouse.button === Qt.MiddleButton) {
+                            if (m.player.togglePlaying) m.player.togglePlaying()
+                        } else {
+                            // Left click = open the full flyout.
+                            root.mprisOpen = !root.mprisOpen
                         }
                     }
                 }
@@ -954,5 +956,17 @@ ShellRoot {
                     }
                 }
         }
+    }
+
+    // ---- mpris flyout (self-contained, one per screen) -----------------
+    MprisFlyout {
+        bg:         root.bg
+        fg:         root.fg
+        muted:      root.muted
+        accent:     root.accent
+        line:       root.line
+        fontFamily: root.fontFamily
+        open:       root.mprisOpen
+        onCloseRequested: root.mprisOpen = false
     }
 }

@@ -48,7 +48,7 @@
     blur_contrast 1.1
     shadows disable
     corner_radius 12
-    layer_effects "rofi" blur enable
+    layer_effects "vicinae" blur enable
     layer_effects "waybar" blur enable
     layer_effects "zen-beta" blur enable
     layer_effects "swaync" blur enable

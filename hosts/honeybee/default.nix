@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./hardware.nix
     ./disk.nix
     ./boot.nix
     ./networking.nix
