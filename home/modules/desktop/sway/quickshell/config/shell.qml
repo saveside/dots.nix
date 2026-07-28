@@ -41,6 +41,10 @@ ShellRoot {
     // IPC-driven state (super+k / DND toggle in center / bar chip).
     property bool notifOpen: false
     property bool dnd:       false
+    // Notification receive timestamps keyed by notification.id — feeds the
+    // "5m ago" strings in the notification center. Cleared when a notif
+    // is dismissed (no strict need, but keeps the object small).
+    property var notifTimestamps: ({})
 
     // ---- mpris flyout ---------------------------------------------------
     property bool mprisOpen: false
@@ -48,11 +52,6 @@ ShellRoot {
     // ---- active-capture indicators (mic / screencast) -------------------
     property bool micActive:    false
     property bool screenActive: false
-    // Short-lived toast queue. Each entry = { n: Notification, expiresAt: ms }.
-    property var activeToasts: []
-    function removeToast(target) {
-        root.activeToasts = root.activeToasts.filter(t => t && t.n && t.n !== target)
-    }
 
     NotificationServer {
         id: notifServer
@@ -66,16 +65,9 @@ ShellRoot {
         onNotification: n => {
             if (root.dnd) { n.dismiss(); return }
             n.tracked = true
-            const to = (n.expireTimeout && n.expireTimeout > 0) ? n.expireTimeout : 5000
-            root.activeToasts = root.activeToasts.concat([{ n: n, expiresAt: Date.now() + to }])
-        }
-    }
-    Timer {
-        interval: 500; running: true; repeat: true
-        onTriggered: {
-            const now = Date.now()
-            const kept = root.activeToasts.filter(t => t && t.n && t.expiresAt > now)
-            if (kept.length !== root.activeToasts.length) root.activeToasts = kept
+            root.notifTimestamps[n.id] = Date.now()
+            root.notifTimestamps = root.notifTimestamps   // notify bindings
+            toasts.push(n)                                // hand off to Toasts.qml
         }
     }
 
@@ -743,391 +735,35 @@ ShellRoot {
         }
     }
 
-    // ---- toast popups (one panel per screen, overlay, non-exclusive) ----
-    Variants {
-        model: Quickshell.screens
-
-        PanelWindow {
-            id: toastWin
-            required property var modelData
-            screen: modelData
-            WlrLayershell.namespace: "quickshell-toasts"
-            WlrLayershell.layer: WlrLayer.Overlay
-            WlrLayershell.exclusiveZone: 0
-            anchors { top: true; right: true }
-            margins { top: 40; right: 12 }
-            color: "transparent"
-            implicitWidth: 380
-            implicitHeight: Math.max(1, toastCol.implicitHeight + 4)
-            // Suppress toasts while the notification center is open — the
-            // same entry already renders in the shade list.
-            visible: root.activeToasts.length > 0 && !root.notifOpen
-
-            Column {
-                id: toastCol
-                width: parent.width
-                spacing: 8
-
-                Repeater {
-                    model: root.activeToasts
-                    delegate: Rectangle {
-                        id: toastCard
-                        required property var modelData
-                        readonly property var n: modelData ? modelData.n : null
-                        width: parent.width
-                        implicitHeight: Math.max(60, tLayout.implicitHeight + 20)
-                        color: root.chip
-                        border { color: root.line; width: 1 }
-                        visible: n !== null
-                        opacity: 0
-                        Component.onCompleted: opacity = 1
-                        Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
-
-                        RowLayout {
-                            id: tLayout
-                            anchors.fill: parent
-                            anchors.margins: 10
-                            spacing: 10
-
-                            Item {
-                                Layout.preferredWidth: 32
-                                Layout.preferredHeight: 32
-                                Layout.alignment: Qt.AlignTop
-                                visible: tImg.status === Image.Ready && tImg.source != ""
-                                Image {
-                                    id: tImg
-                                    anchors.fill: parent
-                                    fillMode: Image.PreserveAspectFit
-                                    smooth: true
-                                    sourceSize.width: 32
-                                    sourceSize.height: 32
-                                    source: {
-                                        const nn = toastCard.n
-                                        if (!nn) return ""
-                                        if (nn.image) return nn.image
-                                        const a = nn.appIcon || ""
-                                        if (!a) return ""
-                                        if (a.charAt(0) === "/" || a.indexOf("file:") === 0) return a
-                                        return Quickshell.iconPath(a, true)
-                                    }
-                                }
-                            }
-
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 4
-
-                                RowLayout {
-                                    Layout.fillWidth: true
-                                    spacing: 6
-                                    Text {
-                                        Layout.fillWidth: true
-                                        text: toastCard.n
-                                            ? (toastCard.n.summary || toastCard.n.appName || "")
-                                            : ""
-                                        color: root.accent
-                                        font { family: root.fontFamily; pixelSize: 13; weight: Font.Bold }
-                                        elide: Text.ElideRight
-                                    }
-                                    Text {
-                                        text: "×"
-                                        color: closeMa.containsMouse ? root.accent : root.fg
-                                        font { family: root.fontFamily; pixelSize: 16; weight: Font.Bold }
-                                        Behavior on color { ColorAnimation { duration: 150 } }
-                                        MouseArea {
-                                            id: closeMa
-                                            anchors.fill: parent
-                                            hoverEnabled: true
-                                            cursorShape: Qt.PointingHandCursor
-                                            onClicked: {
-                                                if (toastCard.n) root.removeToast(toastCard.n)
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Text {
-                                    Layout.fillWidth: true
-                                    text: toastCard.n && toastCard.n.body ? toastCard.n.body : ""
-                                    color: root.fg
-                                    font { family: root.fontFamily; pixelSize: 11; weight: Font.Bold }
-                                    wrapMode: Text.WordWrap
-                                    textFormat: Text.RichText
-                                    visible: text.length > 0
-                                }
-
-                                RowLayout {
-                                    Layout.fillWidth: true
-                                    spacing: 6
-                                    visible: toastCard.n && toastCard.n.actions && toastCard.n.actions.length > 0
-                                    Repeater {
-                                        model: toastCard.n ? toastCard.n.actions : []
-                                        delegate: Rectangle {
-                                            required property var modelData
-                                            property bool hover: false
-                                            implicitHeight: 22
-                                            implicitWidth: aLbl2.implicitWidth + 14
-                                            color: hover ? root.chipHover : root.chipOn
-                                            border { color: root.line; width: 1 }
-                                            radius: 2
-                                            Text {
-                                                id: aLbl2
-                                                anchors.centerIn: parent
-                                                text: modelData.text || modelData.identifier || "action"
-                                                color: hover ? root.accent : root.fg
-                                                font { family: root.fontFamily; pixelSize: 11; weight: Font.Bold }
-                                            }
-                                            MouseArea {
-                                                anchors.fill: parent
-                                                hoverEnabled: true
-                                                cursorShape: Qt.PointingHandCursor
-                                                onEntered: parent.hover = true
-                                                onExited:  parent.hover = false
-                                                onClicked: {
-                                                    modelData.invoke()
-                                                    if (toastCard.n) root.removeToast(toastCard.n)
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    // ---- toast overlay (self-contained; suppressed when center is open) --
+    Toasts {
+        id: toasts
+        bg:         root.bg
+        fg:         root.fg
+        muted:      root.muted
+        accent:     root.accent
+        line:       root.line
+        fontFamily: root.fontFamily
+        suppressed: root.notifOpen
     }
 
-    // ---- notification center: fullscreen click-catch overlay ----------
-    // Overlay layer + top-margin so it sits below the bar; background
-    // MouseArea closes on any outside click. Popup box is anchored to
-    // the top-right; child interactions bubble through inner MouseAreas.
-    Variants {
-        model: Quickshell.screens
-
-        PanelWindow {
-            id: notifShade
-            required property var modelData
-            screen: modelData
-            WlrLayershell.namespace: "quickshell-notif-shade"
-            WlrLayershell.layer: WlrLayer.Overlay
-            WlrLayershell.exclusiveZone: 0
-            WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
-            anchors { top: true; left: true; right: true; bottom: true }
-            margins { top: 34 }   // clear the bar so bar chips remain clickable
-            color: "transparent"
-            visible: root.notifOpen
-
-            // Background dismiss
-            MouseArea {
-                anchors.fill: parent
-                onClicked: root.notifOpen = false
-            }
-
-            // Popup box anchored top-right
-            Rectangle {
-                id: notifBox
-                x: parent.width - width - 12
-                y: 6
-                width: 380
-                height: Math.min(parent.height - 20, 100 + notifCol.implicitHeight)
-                color: root.chip
-                border { color: root.line; width: 1 }
-                MouseArea { anchors.fill: parent; onClicked: {} }
-
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: 10
-                        spacing: 8
-
-                        RowLayout {
-                            Layout.fillWidth: true
-                            spacing: 10
-                            Text {
-                                Layout.fillWidth: true
-                                text: "Notifications"
-                                color: root.accent
-                                font { family: root.fontFamily; pixelSize: 14; weight: Font.Bold }
-                            }
-                            // DND toggle button — clearly framed so it's easy to spot.
-                            Rectangle {
-                                id: dndBtn
-                                property bool hover: false
-                                implicitHeight: 24
-                                implicitWidth: dndLbl.implicitWidth + 18
-                                color: root.dnd
-                                    ? root.accent
-                                    : (hover ? root.chipHover : root.chipOn)
-                                border { color: root.dnd ? root.accent : root.line; width: 1 }
-                                radius: 3
-                                Behavior on color { ColorAnimation { duration: 150 } }
-                                Text {
-                                    id: dndLbl
-                                    anchors.centerIn: parent
-                                    text: root.dnd ? "DND ON" : "DND"
-                                    color: root.dnd ? root.bg : root.fg
-                                    font { family: root.fontFamily; pixelSize: 11; weight: Font.Bold }
-                                }
-                                MouseArea {
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    onEntered: parent.hover = true
-                                    onExited:  parent.hover = false
-                                    onClicked: root.dnd = !root.dnd
-                                }
-                            }
-                            Text {
-                                text: "clear"
-                                color: root.fg
-                                font { family: root.fontFamily; pixelSize: 11; weight: Font.Bold }
-                                MouseArea {
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    onEntered: parent.color = root.accent
-                                    onExited:  parent.color = root.fg
-                                    onClicked: {
-                                        for (const n of notifServer.trackedNotifications.values.slice())
-                                            n.dismiss()
-                                    }
-                                }
-                            }
-                        }
-
-                        Rectangle { Layout.fillWidth: true; height: 1; color: root.line }
-
-                        ColumnLayout {
-                            id: notifCol
-                            Layout.fillWidth: true
-                            spacing: 6
-
-                            Repeater {
-                                model: notifServer.trackedNotifications
-                                delegate: Rectangle {
-                                    required property var modelData
-                                    Layout.fillWidth: true
-                                    implicitHeight: Math.max(60, nCol.implicitHeight + 20)
-                                    color: root.chip
-                                    border { color: root.line; width: 1 }
-
-                                    RowLayout {
-                                        anchors.fill: parent
-                                        anchors.margins: 10
-                                        spacing: 10
-
-                                        Item {
-                                            Layout.preferredWidth: 32
-                                            Layout.preferredHeight: 32
-                                            Layout.alignment: Qt.AlignTop
-                                            visible: iconImg.status === Image.Ready && iconImg.source != ""
-                                            Image {
-                                                id: iconImg
-                                                anchors.fill: parent
-                                                fillMode: Image.PreserveAspectFit
-                                                smooth: true
-                                                sourceSize.width: 32
-                                                sourceSize.height: 32
-                                                source: {
-                                                    const md = parent.parent.parent.modelData
-                                                    if (md.image) return md.image
-                                                    const a = md.appIcon || ""
-                                                    if (!a) return ""
-                                                    if (a.charAt(0) === "/" || a.indexOf("file:") === 0) return a
-                                                    return Quickshell.iconPath(a, true)
-                                                }
-                                            }
-                                        }
-
-                                    ColumnLayout {
-                                        id: nCol
-                                        Layout.fillWidth: true
-                                        spacing: 6
-
-                                        RowLayout {
-                                            Layout.fillWidth: true
-                                            spacing: 6
-                                            Text {
-                                                Layout.fillWidth: true
-                                                text: modelData.summary || modelData.appName || ""
-                                                color: root.accent
-                                                font { family: root.fontFamily; pixelSize: 13; weight: Font.Bold }
-                                                elide: Text.ElideRight
-                                            }
-                                            Text {
-                                                text: "×"
-                                                color: root.fg
-                                                font { family: root.fontFamily; pixelSize: 14; weight: Font.Bold }
-                                                MouseArea {
-                                                    anchors.fill: parent
-                                                    hoverEnabled: true
-                                                    cursorShape: Qt.PointingHandCursor
-                                                    onEntered: parent.color = root.accent
-                                                    onExited:  parent.color = root.fg
-                                                    onClicked: modelData.dismiss()
-                                                }
-                                            }
-                                        }
-                                        Text {
-                                            Layout.fillWidth: true
-                                            text: modelData.body || ""
-                                            color: root.fg
-                                            font { family: root.fontFamily; pixelSize: 11; weight: Font.Bold }
-                                            wrapMode: Text.WordWrap
-                                            textFormat: Text.RichText
-                                            visible: text.length > 0
-                                        }
-                                        // Action buttons — freedesktop notification actions.
-                                        RowLayout {
-                                            Layout.fillWidth: true
-                                            spacing: 6
-                                            visible: modelData.actions && modelData.actions.length > 0
-                                            Repeater {
-                                                model: modelData.actions
-                                                delegate: Rectangle {
-                                                    required property var modelData
-                                                    property bool hover: false
-                                                    implicitHeight: 22
-                                                    implicitWidth: aLabel.implicitWidth + 14
-                                                    color: hover ? root.chipHover : root.chipOn
-                                                    border { color: root.line; width: 1 }
-                                                    Text {
-                                                        id: aLabel
-                                                        anchors.centerIn: parent
-                                                        text: modelData.text || modelData.identifier || "action"
-                                                        color: hover ? root.accent : root.fg
-                                                        font { family: root.fontFamily; pixelSize: 11; weight: Font.Bold }
-                                                    }
-                                                    MouseArea {
-                                                        anchors.fill: parent
-                                                        hoverEnabled: true
-                                                        cursorShape: Qt.PointingHandCursor
-                                                        onEntered: parent.hover = true
-                                                        onExited:  parent.hover = false
-                                                        onClicked: modelData.invoke()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    }
-                                }
-                            }
-
-                            Text {
-                                Layout.alignment: Qt.AlignHCenter
-                                text: "no notifications"
-                                color: root.muted
-                                font { family: root.fontFamily; pixelSize: 11; weight: Font.Bold }
-                                visible: notifServer.trackedNotifications.values.length === 0
-                                Layout.margins: 12
-                            }
-                        }
-                    }
-                }
-        }
+    // ---- notification center (modular, self-contained) ----------------
+    NotifCenter {
+        bg:         root.bg
+        fg:         root.fg
+        muted:      root.muted
+        accent:     root.accent
+        line:       root.line
+        danger:     root.danger
+        fontFamily: root.fontFamily
+        notifServer: notifServer
+        timestamps:  root.notifTimestamps
+        open:        root.notifOpen
+        dnd:         root.dnd
+        onCloseRequested: root.notifOpen = false
+        onDndToggled:     root.dnd = !root.dnd
     }
+
 
     // ---- mpris flyout (self-contained, one per screen) -----------------
     MprisFlyout {
